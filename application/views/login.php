@@ -32,13 +32,18 @@
 </style>
 <div class="container">
     <div class="row">
-        <div class="offset4 span4">
+        <div>
             <?php echo form_open('login/process', array('class' => 'form-signin')); ?>
               <h2 class="form-signin-heading">Ingreso</h2>
               <input type="text" name="username" class="form-control" placeholder="Usuario" autofocus>
               <input type="password" name="password" class="form-control" placeholder="Contraseña">
               <button class="btn btn-lg btn-primary btn-block" type="submit">Entrar</button>
             <?php echo form_close(); ?>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-offset-4 col-lg-4">
+            <p><?php if(isset($msg)) echo $msg; ?></p>
         </div>
     </div>
 </div> <!-- /container -->

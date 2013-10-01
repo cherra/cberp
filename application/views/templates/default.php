@@ -25,7 +25,7 @@
         }
         
         .page-header{
-            margin: 0px 0 10px;
+            margin: 0px 0 15px;
             padding-bottom: 5px;
         }
         
@@ -129,10 +129,8 @@
 <!-- contenido --------------------------------------------------------------- -->
 {contenido_vista}
         </div>
-    </div>
-    <div class="row-fluid">
-        <div class="col-sm-6">
-            <?php if(isset($mensaje)) echo $mensaje ?>
+        <div class="col-sm-offset-3 col-lg-offset-2 col-sm-3 col-lg-4">
+                <p><?php if(isset($mensaje)) echo $mensaje ?></p>
         </div>
     </div>
 </div>

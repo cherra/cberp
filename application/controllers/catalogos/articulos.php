@@ -20,7 +20,7 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Productos <small>Lista</small>';
-    	$data['link_add'] = anchor($this->folder.$this->clase.'productos_agregar','<span class="glyphicon glyphicon-plus"></span> Agregar', array('class' => 'btn btn-info'));
+    	$data['link_add'] = anchor($this->folder.$this->clase.'productos_agregar','<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default'));
     	$data['action'] = $this->folder.$this->clase.'productos';
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
@@ -57,6 +57,54 @@ class Articulos extends CI_Controller {
     	$data['table'] = $this->table->generate();
     	
     	$this->load->view('catalogos/lista', $data);
+    }
+    
+    /*
+     * Agregar un producto
+     */
+    public function productos_agregar() {
+        $this->load->model('catalogos/producto','p');
+        $this->load->model('catalogos/linea','l');
+        
+    	$data['titulo'] = 'Productos <small>Registro nuevo</small>';
+    	$data['link_back'] = anchor($this->folder.$this->clase.'productos','<span class="glyphicon glyphicon-arrow-left"></span> Regresar',array('class'=>'btn btn-default'));
+    
+    	$data['action'] = $this->folder.$this->clase.'productos_agregar';
+    	if ( ($datos = $this->input->post()) ) {
+    		$this->p->save($datos);
+    		$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro exitoso!</div>';
+    	}
+        $data['lineas'] = $this->l->get_all()->result();
+        $this->load->view('catalogos/productos/formulario', $data);
+    }
+    
+    /*
+     * Editar un producto
+     */
+    public function productos_editar( $id = NULL ) {
+    	$this->load->model('catalogos/producto', 'p');
+        $this->load->model('catalogos/linea','l');
+        
+        $producto = $this->p->get_by_id($id);
+        if ( empty($id) OR $producto->num_rows() <= 0) {
+            die($id);
+    		redirect($this->folder.$this->clase.'productos');
+    	}
+    	
+    	$data['titulo'] = 'Productos <small>Editar registro</small>';
+    	$data['link_back'] = anchor($this->folder.$this->clase.'productos','<i class="glyphicon glyphicon-arrow-left"></i> Regresar',array('class'=>'btn btn-default'));
+    	$data['mensaje'] = '';
+    	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id;
+    	 
+    	if ( ($datos = $this->input->post()) ) {
+    		$this->p->update($id, $datos);
+    		$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro modificado!</div>';
+    	}
+
+        $data['lineas'] = $this->l->get_all()->result();
+    	$data['datos'] = $this->p->get_by_id($id)->row();
+        
+        $this->load->view('catalogos/productos/formulario', $data);
     }
 }
 ?>

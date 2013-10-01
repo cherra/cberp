@@ -18,7 +18,7 @@
                 <label class="col-md-2 hidden-xs" for="id_linea">Linea</label>
                 <div class="col-md-4">
                     <select name="id_linea" class="form-control required">
-                        <option value="0">Selecciona una linea...</option>
+                        <option value="">Selecciona una linea...</option>
                         <?php foreach($lineas as $linea){ ?>
                         <option value="<?php echo $linea->id_linea; ?>" <?php if(isset($datos) && $datos->id_linea == $linea->id_linea) echo "selected"; ?>><?php echo $linea->nombre; ?></option>
                         <?php } ?>

@@ -11,7 +11,8 @@
   <!-- js ---------------------------------------------------------------------- -->
     <script src="<?php echo asset_url(); ?>js/jquery.min.js"></script>
     <script src="<?php echo asset_url(); ?>bootstrap/js/bootstrap.min.js"></script>
-   
+    <script src="<?php echo asset_url(); ?>js/jquery.validate.js"></script>
+    <script src="<?php echo asset_url(); ?>js/messages_es.js"></script>
     <style>
         body { padding-top: 60px; }
         
@@ -134,5 +135,21 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $('form').validate({
+            rules: {
+                confirmar_password: {
+                    equalTo: "#password"
+                }
+            },
+            highlight: function(element, errorClass) {
+                $(element).fadeOut(function() {
+                  $(element).fadeIn();
+                });
+            }
+        });
+    });
+</script>
 </body>
 </html>

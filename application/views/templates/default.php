@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <!-- css -------------------------------------------------------------------- -->
     <link href="<?php echo asset_url(); ?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo asset_url(); ?>bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- <link href="<?php echo asset_url(); ?>bootstrap/css/bootstrap-theme.min.css" rel="stylesheet"> -->
    
   <!-- js ---------------------------------------------------------------------- -->
     <script src="<?php echo asset_url(); ?>js/jquery.min.js"></script>
     <script src="<?php echo asset_url(); ?>bootstrap/js/bootstrap.min.js"></script>
    
     <style>
-        body { padding-top: 70px; }
+        body { padding-top: 40px; }
     </style>
 </head>
 <body>
@@ -76,7 +76,7 @@
 {contenido_vista}
     <div class="row">
         <div class="col-sm-6">
-            <?php echo $mensaje ?>
+            <?php if(isset($mensaje)) echo $mensaje ?>
         </div>
     </div>
 </div>

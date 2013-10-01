@@ -16,10 +16,12 @@ class Subproducto extends CI_Model {
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('nombre',$f);
+                $this->db->or_like('sp.nombre',$f);
+                $this->db->or_like('p.nombre',$f);
             }
         }
-        $query = $this->db->get($this->tbl);
+        $this->db->join('Producto p','sp.id_producto = p.id_producto');
+        $query = $this->db->get($this->tbl.' sp');
         return $query->num_rows();
     }
     

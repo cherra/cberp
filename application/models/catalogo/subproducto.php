@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Description of linea
+ * Description of subproducto
  *
  * @author cherra
  */
-class Linea extends CI_Model {
+class Subproducto extends CI_Model {
     
-    private $tbl = 'Linea';
+    private $tbl = 'Subproducto';
     
     /*
      * Cuenta todos los registros utilizando un filtro de busqueda
@@ -35,21 +35,24 @@ class Linea extends CI_Model {
     * Cantidad de registros por pagina
     */
     function get_paged_list($limit = NULL, $offset = 0, $filtro = NULL) {
+        $this->db->select('sp.*');
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('nombre',$f);
+                $this->db->or_like('sp.nombre',$f);
+                $this->db->or_like('p.nombre',$f);
             }
         }
-        $this->db->order_by('nombre','asc');
-        return $this->db->get($this->tbl, $limit, $offset);
+        $this->db->join('Producto p','sp.id_producto = p.id_producto');
+        $this->db->order_by('sp.nombre','asc');
+        return $this->db->get($this->tbl.' sp', $limit, $offset);
     }
     
     /**
     * Obtener por id
     */
     function get_by_id($id) {
-        $this->db->where('id_linea', $id);
+        $this->db->where('id_subproducto', $id);
         return $this->db->get($this->tbl);
     }
     
@@ -65,7 +68,7 @@ class Linea extends CI_Model {
     * Actualizar por id
     */
     function update($id, $datos) {
-        $this->db->where('id_linea', $id);
+        $this->db->where('id_subproducto', $id);
         $this->db->update($this->tbl, $datos);
     }
 
@@ -73,7 +76,7 @@ class Linea extends CI_Model {
     * Eliminar por id
     */
     function delete($id) {
-        $this->db->where('id_linea', $id);
+        $this->db->where('id_subproducto', $id);
         $this->db->delete($this->tbl);
     } 
 }

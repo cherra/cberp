@@ -1,10 +1,10 @@
 <?php
 /**
- * Description of vendedor
+ * Description of empleado
  *
  * @author cherra
  */
-class Vendedor extends CI_Model {
+class Empleado extends CI_Model {
     
     private $tbl = 'Empleado';
     

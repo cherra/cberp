@@ -74,6 +74,11 @@
 <div class="container">
 <!-- contenido --------------------------------------------------------------- -->
 {contenido_vista}
+    <div class="row">
+        <div class="col-sm-6">
+            <?php echo $mensaje ?>
+        </div>
+    </div>
 </div>
 </body>
 </html>

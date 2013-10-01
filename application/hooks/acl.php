@@ -210,7 +210,7 @@ class acl
                         if(($class == 'home' && $method == 'index') or ($class == 'login' && $method == 'do_logout') )
                             return false;
                             
-                        if($this->ci->session->userdata('userid')){
+                        if($this->ci->session->userdata('id_usuario')){
                             /*
                             *  Si el permiso no está dado de alta en la base de datos, verifica que el método llamado existe,
                             * y lo da de alta en la tabla perm_data.
@@ -228,7 +228,7 @@ class acl
                             if($this->ci->config->item('developer_mode') == 1)
                                 return false;
                             
-                            $this->userID = floatval($this->ci->session->userdata('userid'));
+                            $this->userID = floatval($this->ci->session->userdata('id_usuario'));
                             $this->userRoles = $this->getUserRoles();
                             $this->buildACL();
 

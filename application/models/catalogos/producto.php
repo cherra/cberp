@@ -16,10 +16,12 @@ class Producto extends CI_Model {
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('nombre',$f);
+                $this->db->or_like('p.nombre',$f);
+                $this->db->or_like('l.nombre',$f);
             }
         }
-        $query = $this->db->get($this->tbl);
+        $this->db->join('Linea l','p.id_linea = l.id_linea');
+        $query = $this->db->get($this->tbl.' p');
         return $query->num_rows();
     }
     
@@ -35,15 +37,17 @@ class Producto extends CI_Model {
     * Cantidad de registros por pagina
     */
     function get_paged_list($limit = NULL, $offset = 0, $filtro = NULL) {
+        $this->db->select('p.*');
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('nombre',$f);
-                $this->db->or_like('id_linea',$f);
+                $this->db->or_like('p.nombre',$f);
+                $this->db->or_like('l.nombre',$f);
             }
         }
-        $this->db->order_by('nombre','asc');
-        return $this->db->get($this->tbl, $limit, $offset);
+        $this->db->join('Linea l','p.id_linea = l.id_linea');
+        $this->db->order_by('p.nombre','asc');
+        return $this->db->get($this->tbl.' p', $limit, $offset);
     }
     
     /**

@@ -57,10 +57,16 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <p class="navbar-text pull-right hidden-phone">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span class="glyphicon glyphicon-user"></span> <?php echo $this->session->userdata('nombre'); ?> <?php echo anchor('login/do_logout','(Salir)','class="navbar-link"'); ?>
-            </p>
+            <ul class="nav navbar-nav pull-right">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Mi cuenta<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Mis datos</a></li>
+                        <li><a href="#">Cambiar contraseña</a></li>
+                        <li><?php echo anchor('login/do_logout','Salir','class="navbar-link"'); ?></li>
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav navbar-nav">
             <?php
                 // Se obtienen los folders de los métodos para mostrarlos en la barra superior.
@@ -77,21 +83,6 @@
                 ?>><?php 
                 echo anchor($folder->folder.'/'.$folder->folder, ucfirst(strtolower($folder->folder)), 'class="navbar-link"'); ?></li>
                 <?php } ?>
-              <li><a href="#">Dashboard</a></li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Usuarios<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Nuevo</a></li>
-                  <li><a href="#">Listado</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Informes<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Eventos</a></li>
-                  <li><a href="#">Reportes</a></li>
-                </ul>
-              </li>
             </ul>
         </div>
     </div>

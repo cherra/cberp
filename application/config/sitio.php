@@ -47,4 +47,11 @@ $config['asset_path'] = 'assets/';
 */
 $config['tabla_css'] = 'table table-condensed table-striped';
 
+/*
+ * Mensajes
+ */
+$config['update_success'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Registro modificado con éxito</div>';
+$config['create_success'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Registro creado con éxito</div>';
+$config['error'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>¡Ocurrió un error!</div>';
+
 ?>

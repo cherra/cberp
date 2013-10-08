@@ -12,7 +12,7 @@ $config['full_tag_close'] = '</ul>';
 $config['first_link'] = 'Inicio';
 $config['first_tag_open'] = '<li>';
 $config['first_tag_close'] = '</li>';
-$config['last_link'] = 'Último';
+$config['last_link'] = 'Fin';
 $config['last_tag_open'] = '<li>';
 $config['last_tag_close'] = '</li>';
 $config['num_tag_open'] = '<li>';
@@ -25,7 +25,7 @@ $config['next_tag_close'] = '</li>';
 $config['prev_link'] = '&laquo;';
 $config['prev_tag_open'] = '<li>';
 $config['prev_tag_close'] = '</li>';
-$config['num_links'] = 2;
+$config['num_links'] = 1;
 $config['per_page'] = 20;
 //$config['display_pages'] = FALSE;
 ?>

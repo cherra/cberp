@@ -7,7 +7,7 @@
         <input type="text" class="form-control" name="filtro" id="filtro" placeholder="Filtros de busqueda" value="<?php if(isset($filtro)) echo $filtro; ?>" >
     </div>
     <div class="form-group">
-            <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="submit" class="btn btn-primary">Buscar</button>
     </div>
 <?php echo form_close(); ?>
 <div class="row">
@@ -15,7 +15,7 @@
         <?php echo $pagination; ?>
     </div>
     <div class="col-xs-12 col-sm-3">
-        <p class="text-right"><?php echo $link_add; ?></p>
+        <p class="text-right"><?php echo anchor($link_add,'<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default')); ?></p>
     </div>
 </div>
 <div class="row">

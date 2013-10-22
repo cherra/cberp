@@ -70,6 +70,19 @@
                     </ul>
                 </li>
             </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Configuración<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('seguridad/permisos_lista', 'Permisos'); ?></li>
+                        <li><?php echo anchor('seguridad/roles_lista', 'Roles'); ?></li>
+                        <li><?php echo anchor('seguridad/usuarios_lista', 'Usuarios'); ?></li>
+                        <li class="divider"></li>
+                        <li><?php echo anchor('preferencias/plantillas_lista', 'Plantillas de impresión'); ?></li>
+                        <li><?php echo anchor('preferencias/configuracion_lista', 'Parámetros globales'); ?></li>
+                    </ul>
+                </li>
+            </ul>
             <ul class="nav navbar-nav">
             <?php
                 // Se obtienen los folders de los métodos para mostrarlos en la barra superior.

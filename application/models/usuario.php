@@ -12,7 +12,7 @@
  */
 class Usuario extends CI_Model {
     
-    private $tbl = "Usuarios";
+    private $tbl = "Usuario";
     private $tbl_permisos = "PermisosUsuario";
     private $tbl_roles = "RolesUsuario";
     

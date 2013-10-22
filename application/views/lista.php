@@ -15,7 +15,9 @@
         <?php echo $pagination; ?>
     </div>
     <div class="col-xs-12 col-sm-3 col-md-2">
+        <?php if(isset($link_add)){ ?>
         <p class="text-right"><?php echo anchor($link_add,'<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default btn-block')); ?></p>
+        <?php } ?>
     </div>
 </div>
 <div class="row">

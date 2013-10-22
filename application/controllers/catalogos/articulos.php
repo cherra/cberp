@@ -55,7 +55,7 @@ class Articulos extends CI_Controller {
     	}
     	$data['table'] = $this->table->generate();
     	
-    	$this->load->view('catalogos/lista', $data);
+    	$this->load->view('lista', $data);
     }
     
     /*

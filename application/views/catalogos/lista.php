@@ -11,11 +11,11 @@
     </div>
 <?php echo form_close(); ?>
 <div class="row">
-    <div class="col-xs-12 col-sm-9">
+    <div class="col-xs-12 col-sm-9 col-md-10">
         <?php echo $pagination; ?>
     </div>
-    <div class="col-xs-12 col-sm-3">
-        <p class="text-right"><?php echo anchor($link_add,'<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default')); ?></p>
+    <div class="col-xs-12 col-sm-3 col-md-2">
+        <p class="text-right"><?php echo anchor($link_add,'<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default btn-block')); ?></p>
     </div>
 </div>
 <div class="row">

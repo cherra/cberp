@@ -97,35 +97,7 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-sm-3 col-lg-2">
-            <div class="well sidebar-nav">
-                <ul class="nav nav-list">
-                    <?php
-                    $clase = '';
-                    $metodos = $this->menu->get_metodos($folder_activo);
-                    foreach ( $metodos as $metodo ){
-                        if($clase != $metodo->class){
-                            $clase = $metodo->class;
-                    ?>
-                    <li class="nav-header"><?php echo ucfirst($metodo->class); ?></li>
-                    <?php
-                        }
-                        // Link para el menú
-                        $link = $metodo->folder.'/'.$metodo->class.'/'.$metodo->method;
-                    ?>
-                            <li <?php 
-                            // Si el link es igual al URI quiere decir que es la opción seleccionada
-                            // y se marca como activa para resaltarla
-                            if( strpos(current_url(), $metodo->folder.'/'.$metodo->class.'/'.$metodo->method) ) 
-                                echo 'class="active"'; 
-                            ?>><?php echo anchor($link, '<span class="glyphicon glyphicon-'.$metodo->icon.'"></span> '.$metodo->nombre) ?></li>
-                    <?php
-                    }
-                    ?>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-9 col-lg-10">
+        <div class="col-sm-12">
 <!-- contenido --------------------------------------------------------------- -->
 {contenido_vista}
         </div>

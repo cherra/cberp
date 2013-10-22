@@ -2,7 +2,7 @@
 
 class Home extends CI_Controller {
 
-	public $layout = 'default';
+	public $layout = 'default_wo_menu';
 
 	/*
 	* *****************************************************************

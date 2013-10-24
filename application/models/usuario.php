@@ -16,8 +16,16 @@ class Usuario extends CI_Model {
     private $tbl_permisos = "PermisosUsuario";
     private $tbl_roles = "RolesUsuario";
     
-    function count_all() {
-        return $this->db->count_all($this->tbl);
+    function count_all( $filtro = NULL ) {
+        if(!empty($filtro)){
+            $filtro = explode(' ', $filtro);
+            foreach($filtro as $f){
+                $this->db->or_like('nombre', $f);
+                $this->db->or_like('apellido', $f);
+            }
+        }
+        $query = $this->db->get($this->tbl);
+        return $query->num_rows;
     }
     
     /**
@@ -25,7 +33,14 @@ class Usuario extends CI_Model {
     * Cantidad de registros por pagina
     * ***********************************************************************
     */
-    function get_paged_list($limit = null, $offset = 0) {
+    function get_paged_list($limit = null, $offset = 0, $filtro = NULL) {
+        if(!empty($filtro)){
+            $filtro = explode(' ', $filtro);
+            foreach($filtro as $f){
+                $this->db->or_like('nombre', $f);
+                $this->db->or_like('apellido', $f);
+            }
+        }
         $this->db->order_by('nombre','asc');
         return $this->db->get($this->tbl, $limit, $offset);
     }

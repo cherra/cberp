@@ -274,12 +274,12 @@ class Seguridad extends CI_Controller{
         // obtener datos
         $this->config->load("pagination");
         $page_limit = $this->config->item("per_page");
-        $usuarios = $this->u->get_paged_list($page_limit, $offset)->result();
+        $usuarios = $this->u->get_paged_list($page_limit, $offset, $filtro)->result();
         
         // generar paginacion
         $this->load->library('pagination');
         $config['base_url'] = site_url('seguridad/usuarios_lista/');
-        $config['total_rows'] = $this->u->count_all();
+        $config['total_rows'] = $this->u->count_all( $filtro );
         $config['uri_segment'] = 3;
         $this->pagination->initialize($config);
         $data['pagination'] = $this->pagination->create_links();
@@ -289,14 +289,15 @@ class Seguridad extends CI_Controller{
         $this->table->set_empty('&nbsp;');
         $tmpl = array ( 'table_open'  => '<table class="' . $this->config->item('tabla_css') . '">' );
         $this->table->set_template($tmpl);
-        $this->table->set_heading('Nombre', 'Username', 'Activo', '');
+        $this->table->set_heading('Nombre', 'Apellido', 'Username', 'Activo', '');
         
         $i = 0 + $offset;
         foreach ($usuarios as $usuario) {
                 $this->table->add_row(
                         $usuario->nombre,
+                        $usuario->apellido,
                         $usuario->username,
-                        $usuario->eliminado == 'n' ? '<span class="glyphicon glyphicon-ok"></span>' : '',
+                        $usuario->activo == 's' ? '<span class="glyphicon glyphicon-ok"></span>' : '',
                         anchor('seguridad/usuarios_permisos/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-lock"></span>', array('class' => 'btn btn-xs')),
                         anchor('seguridad/usuarios_roles/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-user"></span>', array('class' => 'btn btn-xs')),
                         anchor('seguridad/usuarios_update/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-edit"></span>', array('class' => 'btn btn-xs')),
@@ -330,6 +331,7 @@ class Seguridad extends CI_Controller{
             if(strlen($this->input->post('password')) > 0){
                 $usuario = array(
                     'nombre' => $this->input->post('nombre'),
+                    'apellido' => $this->input->post('apellido'),
                     'username' => $this->input->post('username'),
                     'password' => sha1($this->input->post('password')),
                     'activo' => $this->input->post('activo')
@@ -337,15 +339,16 @@ class Seguridad extends CI_Controller{
             }else{
                 $usuario = array(
                     'nombre' => $this->input->post('nombre'),
+                    'apellido' => $this->input->post('apellido'),
                     'username' => $this->input->post('username'),
                     'activo' => $this->input->post('activo')
                 );
             }
             $this->u->update($id, $usuario);
-            $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Registro modificado</div>';
+            $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Registro modificado.</div>';
         }
         $usuario = $this->u->get_by_id($id)->row();
-        $data['usuario'] = $usuario;
+        $data['datos'] = $usuario;
         $this->load->view('seguridad/usuarios/formulario', $data);
     }
     
@@ -356,7 +359,7 @@ class Seguridad extends CI_Controller{
         $data['mensaje'] = '';
         $data['action'] = 'seguridad/usuarios_add';
         
-        if ($this->input->post() == false) {
+        if ($this->input->post()) {
             $usuario = array(
                 'nombre' => $this->input->post('nombre', true),
                 'username' => $this->input->post('username', true),
@@ -367,7 +370,7 @@ class Seguridad extends CI_Controller{
             $this->load->model('usuario', 'u');
             $this->u->save($usuario);
             
-            $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Registro nuevo</div>';
+            $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Registro exitoso.</div>';
         }
         $this->load->view('seguridad/usuarios/formulario', $data);
     }

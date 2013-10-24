@@ -395,10 +395,10 @@ class Seguridad extends CI_Controller{
         $data['link_back'] = 'seguridad/usuarios_lista/';
 
         $data['mensaje'] = '';
-        $data['action'] = 'seguridad/usuario_permisos/' . $id;
+        $data['action'] = 'seguridad/usuarios_permisos/' . $id;
 
         $usuario = $this->u->get_by_id($id)->row();
-        $data['usuario'] = $usuario;
+        $data['datos'] = $usuario;
         
         /* Si llegan datos por POST, se insertan en la base de datos*/
         if ($this->input->post()) {

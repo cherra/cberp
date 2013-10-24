@@ -2,13 +2,6 @@
 
 class Seguridad extends CI_Controller{
     
-    /**
-    * *****************************************************************
-    * template
-    * *****************************************************************
-    */
-    public $layout = 'default_wo_menu';
-
     private $folder = '';
     private $clase = 'seguridad/';
     /**

@@ -66,7 +66,7 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">Mis datos</a></li>
                         <li><a href="#">Cambiar contraseña</a></li>
-                        <li><?php echo anchor('login/do_logout','Salir','class="navbar-link"'); ?></li>
+                        <li><?php echo anchor('login/do_logout','Salir'); ?></li>
                     </ul>
                 </li>
             </ul>
@@ -111,6 +111,9 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
+        <?php 
+        // Si hay submenú :
+        if($folder_activo){ ?>
         <div class="col-sm-3 col-lg-2">
             <div class="well sidebar-nav">
                 <ul class="nav nav-list">
@@ -140,6 +143,13 @@
             </div>
         </div>
         <div class="col-sm-9 col-lg-10">
+        <?php 
+        }else{ 
+        ?>
+        <div class="col-sm-12">
+        <?php
+        } 
+        ?>
 <!-- contenido --------------------------------------------------------------- -->
 {contenido_vista}
         </div>

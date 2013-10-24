@@ -215,10 +215,10 @@ class Seguridad extends CI_Controller{
         $data['link_back'] = 'seguridad/roles_lista/';
 
         $data['mensaje'] = '';
-        $data['action'] = 'preferencias/seguridad/rol_permisos/' . $id;
+        $data['action'] = 'seguridad/roles_permisos/' . $id;
 
         $rol = $this->r->get_by_id($id)->row();
-        $data['rol'] = $rol;
+        $data['datos'] = $rol;
         
         /* Si llegan datos por POST, se insertan en la base de datos*/
         if ($this->input->post()) {

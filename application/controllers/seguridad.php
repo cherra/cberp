@@ -181,8 +181,6 @@ class Seguridad extends CI_Controller{
         $data['mensaje'] = '';
         $data['action'] = 'seguridad/roles_update/' . $id;
 
-        $rol = $this->r->get_by_id($id)->row();
-        $data['rol'] = $rol;
         if ($this->input->post()) {
             $rol = array(
                         'nombre' => $this->input->post('nombre'),
@@ -190,9 +188,9 @@ class Seguridad extends CI_Controller{
                         );
             $this->r->update($id, $rol);
             $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Registro modificado</div>';
-            $this->load->view('seguridad/roles/formulario', $data);
         }
-        $data['rol'] = (object)$rol;
+        $data['datos'] = $this->r->get_by_id($id)->row();
+        $this->load->view('seguridad/roles/formulario', $data);
     }
     
     public function roles_delete( $id = NULL ){

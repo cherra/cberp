@@ -435,7 +435,7 @@ class Seguridad extends CI_Controller{
         }
         $data['table'] = $this->table->generate();
         
-        $this->load->view('seguridad/usuarios/permisos', $data);
+        $this->load->view('seguridad/usuarios/permisos_roles', $data);
 
     }
     
@@ -471,7 +471,7 @@ class Seguridad extends CI_Controller{
         }
         
         $usuario = $this->u->get_by_id($id)->row();
-        $data['usuario'] = $usuario;
+        $data['datos'] = $usuario;
         
         // Obtener todos los permisos
         $roles = $this->r->get_all()->result();
@@ -491,7 +491,7 @@ class Seguridad extends CI_Controller{
         }
         $data['table'] = $this->table->generate();
         
-        $this->load->view('seguridad/usuarios/roles', $data);
+        $this->load->view('seguridad/usuarios/permisos_roles', $data);
 
     }
     

@@ -32,10 +32,10 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-xs-6 col-sm-offset-2 col-lg-offset-1 col-sm-3 col-md-2 col-lg-1">
+        <div class="col-xs-6 col-sm-offset-6 col-sm-3 col-md-offset-8 col-md-2">
             <?php echo anchor($link_back,'Regresar',array('class'=>'btn btn-default btn-block')); ?>
         </div>
-        <div class="col-xs-6 col-sm-3 col-md-2 col-lg-1">
+        <div class="col-xs-6 col-sm-3 col-md-2">
             <button type="submit" id="guardar" class="btn btn-primary btn-block">Guardar</button>
         </div>
     </div>

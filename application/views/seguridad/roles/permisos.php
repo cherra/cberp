@@ -26,7 +26,7 @@
         </div>
     </div>
     <div class="form-group">
-        <div class="col-xs-6 col-sm-offset-6 col-sm-3 col-md-offset-8 col-md-2">
+        <div class="col-xs-6 col-sm-3 col-md-2">
             <?php echo anchor($link_back,'Regresar',array('class'=>'btn btn-default btn-block')); ?>
         </div>
         <div class="col-xs-6 col-sm-3 col-md-2">

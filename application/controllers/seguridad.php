@@ -495,15 +495,16 @@ class Seguridad extends CI_Controller{
 
     }
     
-    public function usuarios_password( ) {
+    public function usuarios_password( $id = NULL ) {
 
         $this->load->model('usuario','u');
         
-        $id = $this->session->userdata('id_usuario');
+        if(empty($id))
+            $id = $this->session->userdata('id_usuario');
 
         $data['titulo'] = 'Usuario <small>Cambiar contraseña</small>';
         $data['atributos_form'] = array('id' => 'form', 'class' => 'form-horizontal');
-        //$data['link_back'] = anchor('preferencias/preferencias','<i class="icon-arrow-left"></i> Regresar',array('class'=>'btn'));
+        $data['link_back'] = 'home';
 
         $data['mensaje'] = '';
         $data['action'] = 'seguridad/usuarios_password/' . $id;
@@ -514,7 +515,7 @@ class Seguridad extends CI_Controller{
             $data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Constraseña actualizada</div>';
         }
 
-        $data['usuario'] = $this->u->get_by_id($id)->row();
+        $data['datos'] = $this->u->get_by_id($id)->row();
         $this->load->view('seguridad/usuarios/formulario_password', $data);
     }
 }

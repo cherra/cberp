@@ -64,8 +64,7 @@
                 <li class="dropdown pull-right">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Mi cuenta<b class="caret"></b></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Mis datos</a></li>
-                        <li><a href="#">Cambiar contraseña</a></li>
+                        <li><?php echo anchor('seguridad/usuarios_password','Cambiar contraseña'); ?></li>
                         <li><?php echo anchor('login/do_logout','Salir'); ?></li>
                     </ul>
                 </li>

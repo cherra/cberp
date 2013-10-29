@@ -60,29 +60,6 @@
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
-            <ul class="nav navbar-nav pull-right">
-                <li class="dropdown pull-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Mi cuenta<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><?php echo anchor('seguridad/usuarios_password','Cambiar contraseña'); ?></li>
-                        <li><?php echo anchor('login/do_logout','Salir'); ?></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav pull-right">
-                <li class="dropdown pull-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Configuración<b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><?php echo anchor('seguridad/permisos_lista', 'Permisos'); ?></li>
-                        <li><?php echo anchor('seguridad/roles_lista', 'Roles'); ?></li>
-                        <li><?php echo anchor('seguridad/usuarios_lista', 'Usuarios'); ?></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Parámetros</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">Plantillas</a></li>
-                    </ul>
-                </li>
-            </ul>
             <ul class="nav navbar-nav">
             <?php
                 // Se obtienen los folders de los métodos para mostrarlos en la barra superior.
@@ -99,6 +76,27 @@
                 ?>><?php 
                 echo anchor($folder->folder.'/'.$folder->folder, ucfirst(strtolower($folder->folder)), 'class="navbar-link"'); ?></li>
                 <?php } ?>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Mi cuenta<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('seguridad/usuarios_password','Cambiar contraseña'); ?></li>
+                        <li><?php echo anchor('login/do_logout','Salir'); ?></li>
+                    </ul>
+                </li>
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Configuración<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><?php echo anchor('seguridad/permisos_lista', 'Permisos'); ?></li>
+                        <li><?php echo anchor('seguridad/roles_lista', 'Roles'); ?></li>
+                        <li><?php echo anchor('seguridad/usuarios_lista', 'Usuarios'); ?></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Parámetros</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Plantillas</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
@@ -164,9 +162,9 @@
                 
                 
             </div>
-        <div class="col-sm-offset-3 col-lg-offset-2 col-sm-4 col-lg-5">
-                <p><?php if(isset($mensaje)) echo $mensaje ?></p>
-        </div>
+            <div class="col-sm-offset-3 col-lg-offset-2 col-sm-4 col-lg-5">
+                    <p><?php if(isset($mensaje)) echo $mensaje ?></p>
+            </div>
     </div>
 </div>
 <script>

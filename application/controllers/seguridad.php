@@ -47,8 +47,8 @@ class Seguridad extends CI_Controller{
                         $permiso->folder.'/'.$permiso->class.'/'.$permiso->method,
                         ($permiso->menu == 1 ? 'Si' : '-'),
                         '<span class="glyphicon glyphicon-'.$permiso->icon.'"></span>',
-                        anchor('seguridad/permisos_update/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-edit"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/permisos_delete/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-remove"></span>', array('class' => 'btn btn-xs'))
+                        anchor('seguridad/permisos_update/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-edit"></span>'),
+                        anchor('seguridad/permisos_delete/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-remove"></span>')
                 );
         }
         $data['table'] = $this->table->generate();
@@ -133,9 +133,9 @@ class Seguridad extends CI_Controller{
                 $this->table->add_row(
                         $rol->nombre,
                         $rol->descripcion,
-                        anchor('seguridad/roles_permisos/' . $rol->id_rol, '<span class="glyphicon glyphicon-lock"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/roles_update/' . $rol->id_rol, '<span class="glyphicon glyphicon-edit"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/roles_delete/' . $rol->id_rol, '<span class="glyphicon glyphicon-remove"></span>', array('class' => 'btn btn-xs'))
+                        anchor('seguridad/roles_permisos/' . $rol->id_rol, '<span class="glyphicon glyphicon-lock"></span>'),
+                        anchor('seguridad/roles_update/' . $rol->id_rol, '<span class="glyphicon glyphicon-edit"></span>'),
+                        anchor('seguridad/roles_delete/' . $rol->id_rol, '<span class="glyphicon glyphicon-remove"></span>')
                 );
         }
         $data['table'] = $this->table->generate();
@@ -296,10 +296,10 @@ class Seguridad extends CI_Controller{
                         $usuario->apellido,
                         $usuario->username,
                         $usuario->activo == 's' ? '<span class="glyphicon glyphicon-ok"></span>' : '',
-                        anchor('seguridad/usuarios_permisos/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-lock"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/usuarios_roles/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-user"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/usuarios_update/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-edit"></span>', array('class' => 'btn btn-xs')),
-                        anchor('seguridad/usuarios_delete/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-remove"></span>', array('class' => 'btn btn-xs'))
+                        anchor('seguridad/usuarios_permisos/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-lock"></span>'),
+                        anchor('seguridad/usuarios_roles/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-user"></span>'),
+                        anchor('seguridad/usuarios_update/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-edit"></span>'),
+                        anchor('seguridad/usuarios_delete/' . $usuario->id_usuario, '<span class="glyphicon glyphicon-remove"></span>')
                 );
         }
         

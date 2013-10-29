@@ -1,6 +1,3 @@
-<div class="page-header">
-    <h2><?php echo $titulo; ?></h2>
-</div>
 <?php echo form_open($action, array('class' => 'form-inline', 'name' => 'form', 'id' => 'form', 'role' => 'form')) ?>
     <div class="form-group">
         <label class="sr-only" for="filtro">Filtros</label>
@@ -22,7 +19,7 @@
 </div>
 <div class="row">
     <div class="col-sm-12">
-        <div><?php echo $table; ?></div>
+        <?php echo $table; ?>
     </div>
 </div>
 <script>

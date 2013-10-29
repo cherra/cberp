@@ -49,8 +49,9 @@ class Articulos extends CI_Controller {
     	foreach ($datos as $d) {
             $linea = $this->l->get_by_id($d->id_linea)->row();
             $this->table->add_row(
-                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto, $d->nombre),
-                    (!empty($linea->nombre) ? $linea->nombre : '')
+                    $d->nombre,
+                    (!empty($linea->nombre) ? $linea->nombre : ''),
+                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto, '<span class="glyphicon glyphicon-edit"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -93,7 +94,7 @@ class Articulos extends CI_Controller {
     		redirect($this->folder.$this->clase.'productos');
     	}
     	
-    	$data['titulo'] = 'Productos <small>Editar registro</small>';
+    	$data['titulo'] = 'Productos <small>Ver registro</small>';
     	$data['link_back'] = $this->folder.$this->clase.'productos';
         if($this->session->flashdata('mensaje'))
             $data['mensaje'] = $this->session->flashdata('mensaje');

@@ -46,7 +46,7 @@
 
 <!-- menu-top ---------------------------------------------------------------- -->
 <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
-    <div class="container-fluid">
+    <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -108,51 +108,63 @@
 
 </nav>-->
 
-<div class="container-fluid">
-    <div class="row-fluid">
+<div class="container">
+    <div class="row">
         <?php 
         // Si hay submenú :
         if($folder_activo){ ?>
-        <div class="col-sm-3 col-lg-2">
-            <div class="well sidebar-nav">
-                <ul class="nav nav-list">
-                    <?php
-                    $clase = '';
-                    $metodos = $this->menu->get_metodos($folder_activo);
-                    foreach ( $metodos as $metodo ){
-                        if($clase != $metodo->class){
-                            $clase = $metodo->class;
-                    ?>
-                    <li class="nav-header"><?php echo ucfirst($metodo->class); ?></li>
-                    <?php
+        
+            <div class="col-sm-3 col-lg-2">
+                <div class="well sidebar-nav">
+                    <ul class="nav nav-list">
+                        <?php
+                        $clase = '';
+                        $metodos = $this->menu->get_metodos($folder_activo);
+                        foreach ( $metodos as $metodo ){
+                            if($clase != $metodo->class){
+                                $clase = $metodo->class;
+                        ?>
+                        <li class="nav-header"><?php echo ucfirst($metodo->class); ?></li>
+                        <?php
+                            }
+                            // Link para el menú
+                            $link = $metodo->folder.'/'.$metodo->class.'/'.$metodo->method;
+                        ?>
+                                <li <?php 
+                                // Si el link es igual al URI quiere decir que es la opción seleccionada
+                                // y se marca como activa para resaltarla
+                                if( strpos(current_url(), $metodo->folder.'/'.$metodo->class.'/'.$metodo->method) ) 
+                                    echo 'class="active"'; 
+                                ?>><?php echo anchor($link, '<span class="glyphicon glyphicon-'.$metodo->icon.'"></span> '.$metodo->nombre) ?></li>
+                        <?php
                         }
-                        // Link para el menú
-                        $link = $metodo->folder.'/'.$metodo->class.'/'.$metodo->method;
-                    ?>
-                            <li <?php 
-                            // Si el link es igual al URI quiere decir que es la opción seleccionada
-                            // y se marca como activa para resaltarla
-                            if( strpos(current_url(), $metodo->folder.'/'.$metodo->class.'/'.$metodo->method) ) 
-                                echo 'class="active"'; 
-                            ?>><?php echo anchor($link, '<span class="glyphicon glyphicon-'.$metodo->icon.'"></span> '.$metodo->nombre) ?></li>
-                    <?php
-                    }
-                    ?>
-                </ul>
+                        ?>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-lg-10">
+            <div class="col-sm-9 col-lg-10">
         <?php 
         }else{ 
         ?>
-        <div class="col-sm-12">
+            <div class="col-sm-12">
         <?php
         } 
+            if(isset($titulo)){
         ?>
-<!-- contenido --------------------------------------------------------------- -->
-{contenido_vista}
-        </div>
-        <div class="col-sm-offset-3 col-lg-offset-2 col-sm-3 col-lg-4">
+                <!-- Encabezado de la página -->
+                <div class="page-header">
+                <h2><?php echo $titulo; ?></h2>
+                </div>
+        <?php
+            }
+        ?>
+                
+                <!-- contenido --------------------------------------------------------------- -->
+                {contenido_vista}
+                
+                
+            </div>
+        <div class="col-sm-offset-3 col-lg-offset-2 col-sm-4 col-lg-5">
                 <p><?php if(isset($mensaje)) echo $mensaje ?></p>
         </div>
     </div>

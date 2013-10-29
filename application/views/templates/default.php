@@ -28,6 +28,10 @@
             margin-left: 10px;
         }
         
+        .sidebar-nav .nav li a{
+            padding: 5px 10px;
+        }
+        
         .page-header{
             margin: 0px 0 15px;
             padding-bottom: 5px;

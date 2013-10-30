@@ -47,7 +47,7 @@ class Seguridad extends CI_Controller{
                         $permiso->folder.'/'.$permiso->class.'/'.$permiso->method,
                         ($permiso->menu == 1 ? 'Si' : '-'),
                         '<span class="glyphicon glyphicon-'.$permiso->icon.'"></span>',
-                        anchor('seguridad/permisos_update/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-edit"></span>'),
+                        anchor('seguridad/permisos_update/' . $permiso->id_permiso . '/' . $offset, '<span class="glyphicon glyphicon-edit"></span>'),
                         anchor('seguridad/permisos_delete/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-remove"></span>')
                 );
         }
@@ -63,7 +63,7 @@ class Seguridad extends CI_Controller{
 	* Muestra en pantalla el formulario para editar un permiso
 	* *****************************************************************
 	*/
-    public function permisos_update( $id = NULL ) {
+    public function permisos_update( $id = NULL, $offset = 0 ) {
 
         if (empty($id)) {
                 redirect('seguridad/permisos_lista');
@@ -73,10 +73,10 @@ class Seguridad extends CI_Controller{
 
         $data['titulo'] = 'Permisos <small>Modificar</small>';
         $data['atributos_form'] = array('id' => 'form', 'class' => 'form-horizontal');
-        $data['link_back'] = 'seguridad/permisos_lista';
+        $data['link_back'] = 'seguridad/permisos_lista/'.$offset;
 
         $data['mensaje'] = '';
-        $data['action'] = 'seguridad/permisos_update/' . $id;
+        $data['action'] = 'seguridad/permisos_update/' . $id . '/' . $offset;
 
         $permiso = $this->p->get_by_id($id)->row();
         if ($this->input->post()) {

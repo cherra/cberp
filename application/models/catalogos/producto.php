@@ -29,7 +29,7 @@ class Producto extends CI_Model {
      *  Obtiene todos los registros de la tabla
      */
     function get_all() {
-        $this->db->order_by('id_linea, nombre','asc');
+        $this->db->order_by('nombre','asc');
         return $this->db->get($this->tbl);
     }
     

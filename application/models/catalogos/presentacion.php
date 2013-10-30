@@ -21,7 +21,7 @@ class Presentacion extends CI_Model {
                 $this->db->or_like('p.nombre',$f);
             }
         }
-        $this->db->join('Suproducto sp', 'a.id_subproducto = sp.id_subproducto');
+        $this->db->join('Subproducto sp', 'a.id_subproducto = sp.id_subproducto');
         $this->db->join('Producto p', 'sp.id_producto = p.id_producto');
         $query = $this->db->get($this->tbl.' a');
         return $query->num_rows();
@@ -39,6 +39,7 @@ class Presentacion extends CI_Model {
     * Cantidad de registros por pagina
     */
     function get_paged_list($limit = NULL, $offset = 0, $filtro = NULL) {
+        $this->db->select('a.*, CONCAT(sp.codigo,a.codigo) AS codigo', FALSE);
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
@@ -47,7 +48,7 @@ class Presentacion extends CI_Model {
                 $this->db->or_like('p.nombre',$f);
             }
         }
-        $this->db->join('Suproducto sp', 'a.id_subproducto = sp.id_subproducto');
+        $this->db->join('Subproducto sp', 'a.id_subproducto = sp.id_subproducto');
         $this->db->join('Producto p', 'sp.id_producto = p.id_producto');
         $this->db->order_by('a.nombre','asc');
         return $this->db->get($this->tbl.' a', $limit, $offset);

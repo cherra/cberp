@@ -174,15 +174,20 @@
 <script>
     $(document).ready(function(){
         $('form').validate({
+            errorClass: "has-error",
+            validClass: "has-success",
             rules: {
                 confirmar_password: {
                     equalTo: "#password"
                 }
             },
-            highlight: function(element, errorClass) {
-                $(element).fadeOut(function() {
-                  $(element).fadeIn();
+            highlight: function(element, errorClass, validClass) {
+                $(element).parent().parent().addClass(errorClass).fadeOut(function() {
+                  $(element).parent().parent().fadeIn();
                 });
+            },
+            unhighlight: function(element, errorClass, validClass){
+                $(element).parent().parent().removeClass(errorClass);
             }
         });
     });

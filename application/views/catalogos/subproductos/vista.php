@@ -9,28 +9,34 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2" for="nombre">Nombre</label>
+        <label class="col-sm-3">Nombre</label>
         <div class="col-sm-8 col-md-6 col-lg-4">
             <p class="form-control-static"><?php echo (isset($datos->nombre) ? $datos->nombre : ''); ?></p>
         </div>
     </div>
-    <?php if(isset($linea)){ ?>
     <div class="form-group">
-        <label class="col-sm-2" for="id_linea">Linea</label>
+        <label class="col-sm-3">Código</label>
         <div class="col-sm-8 col-md-6 col-lg-4">
-            <p class="form-control-static"><?php echo (isset($linea) ? $linea->nombre : ''); ?></p>
+            <p class="form-control-static"><?php echo (isset($datos->codigo) ? $datos->codigo : ''); ?></p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-3" for="inventariado">Control de inventario</label>
+        <div class="col-sm-6 col-md-4">
+            <input type="checkbox" name="inventariado" disabled <?php 
+            if(isset($datos->inventariado)){
+                echo $datos->inventariado == 's' ? 'checked' : ''; 
+            }
+            ?>>
+        </div>
+    </div>
+    <?php if(isset($producto)){ ?>
+    <div class="form-group">
+        <label class="col-sm-3">Producto</label>
+        <div class="col-sm-8 col-md-6 col-lg-4">
+            <p class="form-control-static"><?php echo $producto->nombre; ?></p>
         </div>
     </div>
     
     <?php } ?>
 <?php echo form_close(); ?>
-
-<script type="text/javascript">
-    
-$(function () {
-   
-    $('#nombre').focus();
-    
-});
-
-</script>

@@ -65,4 +65,5 @@ $config['icono_borrar'] = "glyphicon glyphicon-remove";
 $config['icono_buscar'] = "glyphicon glyphicon-search";
 $config['icono_regresar'] = "glyphicon glyphicon-chevron-left";
 $config['icono_aceptar'] = "glyphicon glyphicon-ok";
+$config['icono_agregar'] = "glyphicon glyphicon-plus";
 ?>

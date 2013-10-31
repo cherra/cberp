@@ -49,7 +49,7 @@ class Articulos extends CI_Controller {
             $linea = $this->l->get_by_id($d->id_linea)->row();
             $this->table->add_row(
                     $d->nombre,
-                    anchor($this->folder.$this->clase.'lineas_ver/' . $d->id_linea, '<span class="glyphicon glyphicon-edit"></span>')
+                    anchor($this->folder.$this->clase.'lineas_ver/' . $d->id_linea, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -75,7 +75,6 @@ class Articulos extends CI_Controller {
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
                     redirect($this->folder.$this->clase.'lineas_agregar');
                 }
-    		//$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro exitoso!</div>';
     	}
         $this->load->view('catalogos/lineas/formulario', $data);
     }
@@ -122,7 +121,6 @@ class Articulos extends CI_Controller {
     	if ( ($datos = $this->input->post()) ) {
     		$this->l->update($id, $datos);
                 $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-    		//$mensaje = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro modificado!</div>';
                 redirect($this->folder.$this->clase.'lineas_ver/'.$id);
     	}
 
@@ -172,7 +170,7 @@ class Articulos extends CI_Controller {
             $this->table->add_row(
                     $d->nombre,
                     (!empty($linea->nombre) ? $linea->nombre : ''),
-                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto, '<span class="glyphicon glyphicon-edit"></span>')
+                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -199,7 +197,6 @@ class Articulos extends CI_Controller {
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
                     redirect($this->folder.$this->clase.'productos_agregar');
                 }
-    		//$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro exitoso!</div>';
     	}
         $data['lineas'] = $this->l->get_all()->result();
         $this->load->view('catalogos/productos/formulario', $data);
@@ -246,7 +243,6 @@ class Articulos extends CI_Controller {
     	if ( ($datos = $this->input->post()) ) {
     		$this->p->update($id, $datos);
                 $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-    		//$mensaje = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro modificado!</div>';
                 redirect($this->folder.$this->clase.'productos_ver/'.$id);
     	}
 
@@ -298,7 +294,7 @@ class Articulos extends CI_Controller {
                     $d->nombre,
                     $d->codigo,
                     (!empty($producto->nombre) ? $producto->nombre : ''),
-                    anchor($this->folder.$this->clase.'subproductos_ver/' . $d->id_subproducto, '<span class="glyphicon glyphicon-edit"></span>')
+                    anchor($this->folder.$this->clase.'subproductos_ver/' . $d->id_subproducto, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -325,7 +321,6 @@ class Articulos extends CI_Controller {
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
                     redirect($this->folder.$this->clase.'subproductos_agregar');
                 }
-    		//$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro exitoso!</div>';
     	}
         $data['productos'] = $this->p->get_all()->result();
         $this->load->view('catalogos/subproductos/formulario', $data);
@@ -377,7 +372,6 @@ class Articulos extends CI_Controller {
                 $datos['inventariado'] = 'n';
             $this->s->update($id, $datos);
             $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-            //$mensaje = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro modificado!</div>';
             redirect($this->folder.$this->clase.'subproductos_ver/'.$id);
     	}
 
@@ -430,7 +424,7 @@ class Articulos extends CI_Controller {
                     $d->codigo,
                     $d->tipo,
                     (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
-                    anchor($this->folder.$this->clase.'presentaciones_ver/' . $d->id_articulo, '<span class="glyphicon glyphicon-edit"></span>')
+                    anchor($this->folder.$this->clase.'presentaciones_ver/' . $d->id_articulo, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -511,7 +505,6 @@ class Articulos extends CI_Controller {
                 $datos['inventariado'] = 'n';
             $this->p->update($id, $datos);
             $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-            //$mensaje = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro modificado!</div>';
             redirect($this->folder.$this->clase.'presentaciones_ver/'.$id);
     	}
 
@@ -565,7 +558,7 @@ class Articulos extends CI_Controller {
                     (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
                     $d->articulos,
                     (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
-                    anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo, '<span class="glyphicon glyphicon-edit"></span>')
+                    anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();

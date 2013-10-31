@@ -1,10 +1,10 @@
 <?php echo form_open($action, array('class' => 'form-horizontal', 'name' => 'form', 'id' => 'form', 'role' => 'form')) ?>
     <div class="form-group">
         <div class="col-xs-6">
-            <?php echo anchor($link_back,'<span class="glyphicon glyphicon-chevron-left"></span> Regresar',array('class'=>'')); ?>
+            <?php echo anchor($link_back,'<span class="'.$this->config->item('icono_regresar').'"></span> Regresar'); ?>
         </div>
         <div class="col-xs-6">
-            <button type="submit" id="guardar" class="btn btn-primary pull-right">Guardar</button>
+            <button type="submit" id="guardar" class="btn btn-primary pull-right"><span class="<?php echo $this->config->item('icono_guardar'); ?>"></span> Guardar</button>
         </div>
     </div>
     <div class="form-group">

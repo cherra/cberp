@@ -4,7 +4,7 @@
             <?php echo anchor($link_back,'<span class="glyphicon glyphicon-home"></span> Inicio',array('class'=>'')); ?>
         </div>
         <div class="col-xs-6">
-            <button type="submit" id="guardar" class="btn btn-primary pull-right">Guardar</button>
+            <button type="submit" id="guardar" class="btn btn-primary pull-right"><span class="<?php echo $this->config->item('icono_guardar'); ?>"></span> Guardar</button>
         </div>
     </div>
     <div class="form-group">

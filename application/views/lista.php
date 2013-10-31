@@ -4,7 +4,7 @@
         <input type="text" class="form-control" name="filtro" id="filtro" placeholder="Filtros de busqueda" value="<?php if(isset($filtro)) echo $filtro; ?>" >
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary">Buscar</button>
+        <button type="submit" class="btn btn-primary"><span class="<?php echo $this->config->item('icono_buscar'); ?>"></span></span> Buscar</button>
     </div>
 <?php echo form_close(); ?>
 <div class="row">
@@ -13,7 +13,7 @@
     </div>
     <div class="col-xs-12 col-sm-3 col-md-2">
         <?php if(isset($link_add)){ ?>
-        <p class="text-right"><?php echo anchor($link_add,'<span class="glyphicon glyphicon-plus"></span> Nuevo', array('class' => 'btn btn-default btn-block')); ?></p>
+        <p class="text-right"><?php echo anchor($link_add,'<span class="'.$this->config->item('icono_nuevo').'"></span> Nuevo', array('class' => 'btn btn-default btn-block')); ?></p>
         <?php } ?>
     </div>
 </div>

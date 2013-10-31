@@ -388,7 +388,7 @@ class Articulos extends CI_Controller {
     }
     
     /*
-     * Listado de subproductos
+     * Listado de presentaciones
      */
     public function presentaciones( $offset = 0 ){
         $this->load->model('catalogos/subproducto','s');
@@ -439,7 +439,7 @@ class Articulos extends CI_Controller {
     }
     
     /*
-     * Agregar un producto
+     * Agregar una presentación
      */
     public function presentaciones_agregar() {
         $this->load->model('catalogos/subproducto','s');
@@ -485,7 +485,7 @@ class Articulos extends CI_Controller {
     }
     
     /*
-     * Editar un producto
+     * Editar una presentación
      */
     public function presentaciones_editar( $id = NULL ) {
         $this->load->model('catalogos/subproducto', 's');
@@ -519,6 +519,173 @@ class Articulos extends CI_Controller {
     	$data['datos'] = $this->p->get_by_id($id)->row();
         
         $this->load->view('catalogos/presentaciones/formulario', $data);
+    }
+    
+    /*
+     * Listado de paquetes
+     */
+    public function paquetes( $offset = 0 ){
+        $this->load->model('catalogos/paquete','p');
+        $this->load->model('catalogos/presentacion','pr');
+        $this->load->model('catalogos/subproducto','s');
+        
+        $this->config->load("pagination");
+    	
+        $data['titulo'] = 'Paquetes <small>Lista</small>';
+    	$data['link_add'] = $this->folder.$this->clase.'paquetes_agregar';
+    	$data['action'] = $this->folder.$this->clase.'paquetes';
+        
+        // Filtro de busqueda (se almacenan en la sesión a través de un hook)
+        $filtro = $this->session->userdata('filtro');
+        if($filtro)
+            $data['filtro'] = $filtro;
+        
+        $page_limit = $this->config->item("per_page");
+    	$datos = $this->p->get_paged_list($page_limit, $offset, $filtro)->result();
+    	
+        // generar paginacion
+    	$this->load->library('pagination');
+    	$config['base_url'] = site_url($this->folder.$this->clase.'paquetes');
+    	$config['total_rows'] = $this->p->count_all($filtro);
+    	$config['per_page'] = $page_limit;
+    	$config['uri_segment'] = 4;
+    	$this->pagination->initialize($config);
+    	$data['pagination'] = $this->pagination->create_links();
+    	
+    	// generar tabla
+    	$this->load->library('table');
+    	$this->table->set_empty('&nbsp;');
+    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
+    	$this->table->set_template($tmpl);
+    	$this->table->set_heading('Nombre', 'Código', 'Artículos', 'Subproducto', '');
+    	foreach ($datos as $d) {
+            $subproducto = $this->s->get_by_id($d->id_subproducto)->row();
+            $this->table->add_row(
+                    $d->nombre,
+                    $d->codigo,
+                    $d->articulos,
+                    (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
+                    anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo, '<span class="glyphicon glyphicon-edit"></span>')
+            );
+    	}
+    	$data['table'] = $this->table->generate();
+    	
+    	$this->load->view('lista', $data);
+    }
+    
+    /*
+     * Agregar una presentación
+     */
+    public function paquetes_agregar( ) {
+        $this->load->model('catalogos/paquete','p');
+        $this->load->model('catalogos/presentacion','pr');
+        
+    	$data['titulo'] = 'Paquetes <small>Registro nuevo</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
+    
+    	$data['action'] = $this->folder.$this->clase.'paquetes_editar';
+    	
+        $data['presentaciones'] = $this->pr->get_all()->result();
+        $this->load->view('catalogos/paquetes/formulario_nuevo', $data);
+    }
+    
+    /*
+     * Editar una presentación
+     */
+    public function paquetes_editar( $id_articulo = NULL ) {
+        $this->load->model('catalogos/paquete', 'p');
+    	$this->load->model('catalogos/presentacion','pr');
+        $this->load->model('catalogos/subproducto', 'sp');
+        
+        if(empty($id_articulo))
+            redirect($this->folder.$this->clase.'paquetes');
+
+        $data['titulo'] = 'Paquetes <small>Editar registro</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes_ver/'.$id_articulo;
+    	$data['mensaje'] = '';
+    	$data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
+    	 
+        if ( ($datos = $this->input->post()) ) {
+            $datos['id_articulo'] = $id_articulo;
+            
+            if( ($id = $this->p->save($datos)) ){
+                $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
+                redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo);
+            }else{
+                $this->session->set_flashdata('mensaje',$this->config->item('error'));
+                redirect($this->folder.$this->clase.'paquetes_editar');
+            }
+    	}
+
+        $data['paquete'] = $this->pr->get_by_id($id_articulo)->row();
+        $data['presentaciones'] = $this->pr->get_all()->result();
+    	$data['datos'] = $this->p->get_by_id_articulo($id_articulo)->row();
+        
+        $presentaciones = $this->p->get_presentaciones( $id_articulo )->result();
+        // generar tabla
+    	$this->load->library('table');
+    	$this->table->set_empty('&nbsp;');
+    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
+    	$this->table->set_template($tmpl);
+    	$this->table->set_heading('Nombre', 'Código', 'Cantidad', '');
+    	foreach ($presentaciones as $d) {
+            $subproducto = $this->sp->get_by_id($d->id_subproducto)->row();
+            $this->table->add_row(
+                    $d->nombre,
+                    (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
+                    $d->cantidad,
+                    anchor($this->folder.$this->clase.'paquetes_quitar/' . $d->id_paquete_articulo.'/'.$d->id_articulo, '<span class="'.$this->config->item('icono_borrar').'"></span>')
+            );
+    	}
+    	$data['table'] = $this->table->generate();
+        
+        $this->load->view('catalogos/paquetes/formulario', $data);
+    }
+    
+    public function paquetes_ver( $id_articulo = NULL ) {
+    	$this->load->model('catalogos/paquete', 'p');
+        $this->load->model('catalogos/presentacion','pr');
+        $this->load->model('catalogos/subproducto', 'sp');
+        
+        $presentacion = $this->pr->get_by_id($id_articulo);
+        if ( empty($id_articulo) OR $presentacion->num_rows() <= 0) {
+            redirect($this->folder.$this->clase.'paquetes');
+    	}
+    	
+    	$data['titulo'] = 'Paquetes <small>Ver registro</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
+        if($this->session->flashdata('mensaje'))
+            $data['mensaje'] = $this->session->flashdata('mensaje');
+    	
+        $data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
+    	$data['paquete'] = $presentacion->row();
+        
+        $presentaciones = $this->p->get_presentaciones( $id_articulo )->result();
+        // generar tabla
+    	$this->load->library('table');
+    	$this->table->set_empty('&nbsp;');
+    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
+    	$this->table->set_template($tmpl);
+    	$this->table->set_heading('Nombre', 'Código', 'Cantidad','');
+    	foreach ($presentaciones as $d) {
+            $subproducto = $this->sp->get_by_id($d->id_subproducto)->row();
+            $this->table->add_row(
+                    $d->nombre,
+                    (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
+                    $d->cantidad,
+                    ''
+            );
+    	}
+    	$data['table'] = $this->table->generate();
+        
+        $this->load->view('catalogos/paquetes/vista', $data);
+    }
+    
+    public function paquetes_quitar( $id, $id_articulo ) {
+        $this->load->model('catalogos/paquete','p');
+            	
+        $this->p->delete( $id );
+        redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo);
     }
 }
 ?>

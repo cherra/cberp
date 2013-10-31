@@ -19,7 +19,9 @@ class Paquete extends CI_Model {
                 $this->db->or_like('id_paquete_articulo',$f);
             }
         }
-        $query = $this->db->get($this->tbl);
+        $this->db->join($this->tbl_articulo.' a', 'pa.id_articulo = a.id_articulo');
+        $this->db->group_by('pa.id_articulo');
+        $query = $this->db->get($this->tbl.' pa');
         return $query->num_rows();
     }
     
@@ -35,21 +37,36 @@ class Paquete extends CI_Model {
     * Cantidad de registros por pagina
     */
     function get_paged_list($limit = NULL, $offset = 0, $filtro = NULL) {
+        $this->db->select('a.*, COUNT(pa.id_articulo_paquete) AS articulos', FALSE);
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
                 $this->db->or_like('id_paquete_articulo',$f);
             }
         }
+        $this->db->join($this->tbl_articulo.' a', 'pa.id_articulo = a.id_articulo');
+        $this->db->group_by('pa.id_articulo');
         $this->db->order_by('id_paquete_articulo','asc');
-        return $this->db->get($this->tbl, $limit, $offset);
+        return $this->db->get($this->tbl.' pa', $limit, $offset);
     }
     
+    function get_presentaciones( $id_articulo ){
+        $this->db->select('a.*, pa.*');
+        $this->db->join($this->tbl_articulo.' a', 'pa.id_articulo_paquete = a.id_articulo');
+        $this->db->where('pa.id_articulo', $id_articulo);
+        $this->db->order_by('a.nombre');
+        return $this->db->get($this->tbl.' pa');
+    }
     /**
     * Obtener por id
     */
     function get_by_id($id) {
         $this->db->where('id_paquete_articulo', $id);
+        return $this->db->get($this->tbl);
+    }
+    
+    function get_by_id_articulo($id) {
+        $this->db->where('id_articulo', $id);
         return $this->db->get($this->tbl);
     }
     

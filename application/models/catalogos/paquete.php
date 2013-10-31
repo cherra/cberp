@@ -52,7 +52,7 @@ class Paquete extends CI_Model {
     
     function get_presentaciones( $id_articulo ){
         $this->db->select('a.*, pa.*');
-        $this->db->join($this->tbl_articulo.' a', 'pa.id_articulo_paquete = a.id_articulo');
+        $this->db->join($this->tbl_articulo.' a', 'pa.id_articulo_paquete = a.id_articulo','left');
         $this->db->where('pa.id_articulo', $id_articulo);
         $this->db->order_by('a.nombre');
         return $this->db->get($this->tbl.' pa');

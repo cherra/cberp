@@ -98,7 +98,7 @@ class Articulos extends CI_Controller {
             $data['mensaje'] = $this->session->flashdata('mensaje');
     	$data['action'] = $this->folder.$this->clase.'lineas_editar/' . $id;
 
-    	$data['datos'] = $this->l->get_by_id($id)->row();
+    	$data['datos'] = $linea->row();
         
         $this->load->view('catalogos/lineas/vista', $data);
     }
@@ -220,7 +220,7 @@ class Articulos extends CI_Controller {
             $data['mensaje'] = $this->session->flashdata('mensaje');
     	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id;
 
-    	$data['datos'] = $this->p->get_by_id($id)->row();
+    	$data['datos'] = $producto->row();
         $data['linea'] = $this->l->get_by_id($data['datos']->id_linea)->row();
         
         $this->load->view('catalogos/productos/vista', $data);
@@ -346,7 +346,7 @@ class Articulos extends CI_Controller {
             $data['mensaje'] = $this->session->flashdata('mensaje');
     	$data['action'] = $this->folder.$this->clase.'subproductos_editar/' . $id;
 
-    	$data['datos'] = $this->s->get_by_id($id)->row();
+    	$data['datos'] = $subproducto->row();
         $data['producto'] = $this->p->get_by_id($data['datos']->id_producto)->row();
         
         $this->load->view('catalogos/subproductos/vista', $data);
@@ -478,7 +478,7 @@ class Articulos extends CI_Controller {
             $data['mensaje'] = $this->session->flashdata('mensaje');
     	$data['action'] = $this->folder.$this->clase.'presentaciones_editar/' . $id;
 
-    	$data['datos'] = $this->p->get_by_id($id)->row();
+    	$data['datos'] = $presentacion->row();
         $data['subproducto'] = $this->s->get_by_id($data['datos']->id_subproducto)->row();
         
         $this->load->view('catalogos/presentaciones/vista', $data);
@@ -574,7 +574,7 @@ class Articulos extends CI_Controller {
     }
     
     /*
-     * Agregar una presentación
+     * Agregar un paquete
      */
     public function paquetes_agregar( ) {
         $this->load->model('catalogos/paquete','p');
@@ -589,8 +589,47 @@ class Articulos extends CI_Controller {
         $this->load->view('catalogos/paquetes/formulario_nuevo', $data);
     }
     
+    public function paquetes_ver( $id_articulo = NULL ) {
+    	$this->load->model('catalogos/paquete', 'p');
+        $this->load->model('catalogos/presentacion','pr');
+        $this->load->model('catalogos/subproducto', 'sp');
+        
+        $presentacion = $this->pr->get_by_id($id_articulo);
+        if ( empty($id_articulo) OR $presentacion->num_rows() <= 0) {
+            redirect($this->folder.$this->clase.'paquetes');
+    	}
+    	
+    	$data['titulo'] = 'Paquetes <small>Ver registro</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
+        if($this->session->flashdata('mensaje'))
+            $data['mensaje'] = $this->session->flashdata('mensaje');
+    	
+        $data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
+    	$data['paquete'] = $presentacion->row();
+        
+        $presentaciones = $this->p->get_presentaciones( $id_articulo )->result();
+        // generar tabla
+    	$this->load->library('table');
+    	$this->table->set_empty('&nbsp;');
+    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
+    	$this->table->set_template($tmpl);
+    	$this->table->set_heading('Nombre', 'Código', 'Cantidad','');
+    	foreach ($presentaciones as $d) {
+            $subproducto = $this->sp->get_by_id($d->id_subproducto)->row();
+            $this->table->add_row(
+                    $d->nombre,
+                    (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
+                    $d->cantidad . (($d->tipo == 'peso') ? 'kg' : 'pz'),
+                    ''
+            );
+    	}
+    	$data['table'] = $this->table->generate();
+        
+        $this->load->view('catalogos/paquetes/vista', $data);
+    }
+    
     /*
-     * Editar una presentación
+     * Editar un paquete
      */
     public function paquetes_editar( $id_articulo = NULL ) {
         $this->load->model('catalogos/paquete', 'p');
@@ -642,50 +681,130 @@ class Articulos extends CI_Controller {
         $this->load->view('catalogos/paquetes/formulario', $data);
     }
     
-    public function paquetes_ver( $id_articulo = NULL ) {
-    	$this->load->model('catalogos/paquete', 'p');
-        $this->load->model('catalogos/presentacion','pr');
-        $this->load->model('catalogos/subproducto', 'sp');
-        
-        $presentacion = $this->pr->get_by_id($id_articulo);
-        if ( empty($id_articulo) OR $presentacion->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'paquetes');
-    	}
-    	
-    	$data['titulo'] = 'Paquetes <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
-        if($this->session->flashdata('mensaje'))
-            $data['mensaje'] = $this->session->flashdata('mensaje');
-    	
-        $data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
-    	$data['paquete'] = $presentacion->row();
-        
-        $presentaciones = $this->p->get_presentaciones( $id_articulo )->result();
-        // generar tabla
-    	$this->load->library('table');
-    	$this->table->set_empty('&nbsp;');
-    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
-    	$this->table->set_template($tmpl);
-    	$this->table->set_heading('Nombre', 'Código', 'Cantidad','');
-    	foreach ($presentaciones as $d) {
-            $subproducto = $this->sp->get_by_id($d->id_subproducto)->row();
-            $this->table->add_row(
-                    $d->nombre,
-                    (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
-                    $d->cantidad . (($d->tipo == 'peso') ? 'kg' : 'pz'),
-                    ''
-            );
-    	}
-    	$data['table'] = $this->table->generate();
-        
-        $this->load->view('catalogos/paquetes/vista', $data);
-    }
-    
     public function paquetes_quitar( $id, $id_articulo ) {
         $this->load->model('catalogos/paquete','p');
             	
         $this->p->delete( $id );
         redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo);
+    }
+    
+    
+    /*
+     * Listas de precios
+     */
+    public function precios_listas( $offset = 0 ){
+        $this->load->model('catalogos/lista','l');
+        
+        $this->config->load("pagination");
+    	
+        $data['titulo'] = 'Listas de precios <small>Lista</small>';
+    	$data['link_add'] = $this->folder.$this->clase.'precios_listas_agregar';
+    	$data['action'] = $this->folder.$this->clase.'precios_listas';
+        
+        // Filtro de busqueda (se almacenan en la sesión a través de un hook)
+        $filtro = $this->session->userdata('filtro');
+        if($filtro)
+            $data['filtro'] = $filtro;
+        
+        $page_limit = $this->config->item("per_page");
+    	$datos = $this->l->get_paged_list($page_limit, $offset, $filtro)->result();
+    	
+        // generar paginacion
+    	$this->load->library('pagination');
+    	$config['base_url'] = site_url($this->folder.$this->clase.'precios_listas');
+    	$config['total_rows'] = $this->l->count_all($filtro);
+    	$config['per_page'] = $page_limit;
+    	$config['uri_segment'] = 4;
+    	$this->pagination->initialize($config);
+    	$data['pagination'] = $this->pagination->create_links();
+    	
+    	// generar tabla
+    	$this->load->library('table');
+    	$this->table->set_empty('&nbsp;');
+    	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
+    	$this->table->set_template($tmpl);
+    	$this->table->set_heading('Nombre', '');
+    	foreach ($datos as $d) {
+            $this->table->add_row(
+                    $d->nombre,
+                    anchor($this->folder.$this->clase.'precios_listas_ver/' . $d->id_lista, '<span class="'.$this->config->item('icono_editar').'"></span>')
+            );
+    	}
+    	$data['table'] = $this->table->generate();
+    	
+    	$this->load->view('lista', $data);
+    }
+    
+    /*
+     * Agregar una lista de precios
+     */
+    public function precios_listas_agregar() {
+        $this->load->model('catalogos/lista','l');
+        
+    	$data['titulo'] = 'Listas de precios <small>Registro nuevo</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'precios_listas';
+    
+    	$data['action'] = $this->folder.$this->clase.'precios_listas_agregar';
+    	if ( ($datos = $this->input->post()) ) {
+    		if( ($id = $this->l->save($datos)) ){
+                    $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
+                    redirect($this->folder.$this->clase.'precios_listas_ver/'.$id);
+                }else{
+                    $this->session->set_flashdata('mensaje',$this->config->item('error'));
+                    redirect($this->folder.$this->clase.'precios_listas_agregar');
+                }
+    	}
+        $this->load->view('catalogos/precios_listas/formulario', $data);
+    }
+    
+    
+    /*
+     * Vista previa de listas de precios
+     */
+    public function precios_listas_ver( $id = NULL ) {
+        $this->load->model('catalogos/lista','l');
+        
+        $lista = $this->l->get_by_id($id);
+        if ( empty($id) OR $lista->num_rows() <= 0) {
+            redirect($this->folder.$this->clase.'precios_listas');
+    	}
+    	
+    	$data['titulo'] = 'Listas de precios <small>Ver registro</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'precios_listas';
+        if($this->session->flashdata('mensaje'))
+            $data['mensaje'] = $this->session->flashdata('mensaje');
+    	$data['action'] = $this->folder.$this->clase.'precios_listas_editar/' . $id;
+
+    	$data['datos'] = $this->l->get_by_id($id)->row();
+        
+        $this->load->view('catalogos/precios_listas/vista', $data);
+    }
+    
+    /*
+     * Editar una linea
+     */
+    public function precios_listas_editar( $id = NULL ) {
+        $this->load->model('catalogos/lista','l');
+        
+        $lista = $this->l->get_by_id($id);
+        if ( empty($id) OR $lista->num_rows() <= 0) {
+            redirect($this->folder.$this->clase.'precios_listas');
+    	}
+    	
+    	$data['titulo'] = 'Listas de precios <small>Editar registro</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'precios_listas_ver/'.$id;
+    	$data['mensaje'] = '';
+    	$data['action'] = $this->folder.$this->clase.'precios_listas_editar/' . $id;
+    	 
+    	if ( ($datos = $this->input->post()) ) {
+    		$this->l->update($id, $datos);
+                $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
+                redirect($this->folder.$this->clase.'precios_listas_ver/'.$id);
+    	}
+
+    	$data['datos'] = $this->l->get_by_id($id)->row();
+        
+        $this->load->view('catalogos/precios_listas/formulario', $data);
     }
 }
 ?>

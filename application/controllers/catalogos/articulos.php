@@ -562,7 +562,7 @@ class Articulos extends CI_Controller {
             $subproducto = $this->s->get_by_id($d->id_subproducto)->row();
             $this->table->add_row(
                     $d->nombre,
-                    $d->codigo,
+                    (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
                     $d->articulos,
                     (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
                     anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo, '<span class="glyphicon glyphicon-edit"></span>')

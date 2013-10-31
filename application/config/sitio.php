@@ -61,6 +61,8 @@ $config['error'] = '<div class="alert alert-success alert-dismissable"><button t
 $config['icono_nuevo'] = "glyphicon glyphicon-file";
 $config['icono_guardar'] = "glyphicon glyphicon-save";
 $config['icono_editar'] = "glyphicon glyphicon-edit";
+$config['icono_borrar'] = "glyphicon glyphicon-remove";
 $config['icono_buscar'] = "glyphicon glyphicon-search";
 $config['icono_regresar'] = "glyphicon glyphicon-chevron-left";
+$config['icono_aceptar'] = "glyphicon glyphicon-ok";
 ?>

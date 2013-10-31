@@ -4,7 +4,7 @@
             <?php echo anchor($link_back,'<span class="'.$this->config->item('icono_regresar').'"></span> Regresar'); ?>
         </div>
         <div class="col-xs-6">
-            <button type="submit" id="guardar" class="btn btn-primary pull-right"><span class="<?php echo $this->config->item('icono_guardar'); ?>"></span> Guardar</button>
+            <button type="submit" id="guardar" class="btn btn-primary pull-right"><span class="<?php echo $this->config->item('icono_agregar'); ?>"></span> Agregar</button>
         </div>
     </div>
     <?php if(isset($paquete)){ ?>

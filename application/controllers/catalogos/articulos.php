@@ -633,7 +633,7 @@ class Articulos extends CI_Controller {
             $this->table->add_row(
                     $d->nombre,
                     (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
-                    $d->cantidad,
+                    $d->cantidad . (($d->tipo == 'peso') ? 'kg' : 'pz'),
                     anchor($this->folder.$this->clase.'paquetes_quitar/' . $d->id_paquete_articulo.'/'.$d->id_articulo, '<span class="'.$this->config->item('icono_borrar').'"></span>')
             );
     	}
@@ -672,7 +672,7 @@ class Articulos extends CI_Controller {
             $this->table->add_row(
                     $d->nombre,
                     (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
-                    $d->cantidad,
+                    $d->cantidad . (($d->tipo == 'peso') ? 'kg' : 'pz'),
                     ''
             );
     	}

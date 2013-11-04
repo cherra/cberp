@@ -62,6 +62,13 @@ class Presentacion extends CI_Model {
         return $this->db->get($this->tbl);
     }
     
+    function get_by_codigo($codigo) {
+        $this->db->select('a.*');
+        $this->db->where('CONCAT(sp.codigo,a.codigo)', $codigo);
+        $this->db->join('Subproducto sp','a.id_subproducto = sp.id_subproducto');
+        return $this->db->get($this->tbl.' a');
+    }
+    
     /**
     * Alta
     */

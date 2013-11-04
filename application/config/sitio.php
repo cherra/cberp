@@ -52,8 +52,10 @@ $config['tabla_css'] = 'table table-condensed table-striped';
  */
 $config['update_success'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Registro modificado con éxito</div>';
 $config['create_success'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Registro creado con éxito</div>';
-$config['error'] = '<div class="alert alert-success alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>¡Ocurrió un error!</div>';
+$config['error'] = '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>¡Ocurrió un error!</div>';
 
+
+$config['tmp_path'] = 'assets/tmp/';
 
 /*
  * Íconos por default
@@ -66,4 +68,5 @@ $config['icono_buscar'] = "glyphicon glyphicon-search";
 $config['icono_regresar'] = "glyphicon glyphicon-chevron-left";
 $config['icono_aceptar'] = "glyphicon glyphicon-ok";
 $config['icono_agregar'] = "glyphicon glyphicon-plus";
+$config['icono_upload'] = "glyphicon glyphicon-upload";
 ?>

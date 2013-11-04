@@ -167,7 +167,7 @@
                 
             </div>
             <div class="col-sm-offset-3 col-lg-offset-2 col-sm-4 col-lg-5">
-                    <p><?php if(isset($mensaje)) echo $mensaje ?></p>
+                    <p><?php if($this->session->flashdata('mensaje')) echo $this->session->flashdata('mensaje') ?></p>
             </div>
     </div>
 </div>

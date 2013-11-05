@@ -117,7 +117,7 @@
         if($folder_activo){ ?>
         
             <div class="col-sm-3 col-lg-2">
-                <div class="well sidebar-nav">
+                <div class="sidebar-nav well hidden-print affix">
                     <ul class="nav nav-list">
                         <?php
                         $clase = '';
@@ -126,7 +126,7 @@
                             if($clase != $metodo->class){
                                 $clase = $metodo->class;
                         ?>
-                        <li class="nav-header"><?php echo ucfirst($metodo->class); ?></li>
+                        <li class="nav-header"><?php echo ucfirst(str_replace('_',' ',$metodo->class)); ?></li>
                         <?php
                             }
                             // Link para el menú
@@ -137,7 +137,7 @@
                                 // y se marca como activa para resaltarla
                                 if( strpos(current_url(), $metodo->folder.'/'.$metodo->class.'/'.$metodo->method) ) 
                                     echo 'class="active"'; 
-                                ?>><?php echo anchor($link, '<span class="glyphicon glyphicon-'.$metodo->icon.'"></span> '.$metodo->nombre) ?></li>
+                                ?>><?php echo anchor($link, '<span class="glyphicon glyphicon-'.$metodo->icon.'"></span> '.$metodo->nombre); ?></li>
                         <?php
                         }
                         ?>

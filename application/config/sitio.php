@@ -69,4 +69,5 @@ $config['icono_regresar'] = "glyphicon glyphicon-chevron-left";
 $config['icono_aceptar'] = "glyphicon glyphicon-ok";
 $config['icono_agregar'] = "glyphicon glyphicon-plus";
 $config['icono_upload'] = "glyphicon glyphicon-upload";
+$config['icono_download'] = "glyphicon glyphicon-download";
 ?>

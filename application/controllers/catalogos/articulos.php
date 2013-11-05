@@ -801,6 +801,7 @@ class Articulos extends CI_Controller {
     	
         $data['titulo'] = 'Precios <small>Lista</small>';
     	$data['action'] = $this->folder.$this->clase.'precios/'.$id_lista;
+        $data['link_back'] = $this->folder.$this->clase.'precios_listas';
         
         $data['listas'] = $this->l->get_all()->result();
         if(!empty($id_lista)){

@@ -19,8 +19,8 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Lineas <small>Lista</small>';
-    	$data['link_add'] = $this->folder.$this->clase.'lineas_agregar';
-    	$data['action'] = $this->folder.$this->clase.'lineas';
+    	$data['link_add'] = $this->folder.$this->clase.'lineas_agregar/'. $offset;
+    	$data['action'] = $this->folder.$this->clase.'lineas/'. $offset;
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
         $filtro = $this->session->userdata('filtro');
@@ -48,7 +48,7 @@ class Articulos extends CI_Controller {
     	foreach ($datos as $d) {
             $this->table->add_row(
                     $d->nombre,
-                    anchor($this->folder.$this->clase.'lineas_ver/' . $d->id_linea, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'lineas_ver/' . $d->id_linea . '/' . $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -59,20 +59,20 @@ class Articulos extends CI_Controller {
     /*
      * Agregar una linea
      */
-    public function lineas_agregar() {
+    public function lineas_agregar( $offset = 0 ) {
         $this->load->model('catalogos/linea','l');
         
     	$data['titulo'] = 'Lineas <small>Registro nuevo</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'lineas';
+    	$data['link_back'] = $this->folder.$this->clase.'lineas/'. $offset;
     
-    	$data['action'] = $this->folder.$this->clase.'lineas_agregar';
+    	$data['action'] = $this->folder.$this->clase.'lineas_agregar/'. $offset;
     	if ( ($datos = $this->input->post()) ) {
     		if( ($id = $this->l->save($datos)) ){
                     $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
-                    redirect($this->folder.$this->clase.'lineas_ver/'.$id);
+                    redirect($this->folder.$this->clase.'lineas_ver/'.$id.'/'. $offset);
                 }else{
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
-                    redirect($this->folder.$this->clase.'lineas_agregar');
+                    redirect($this->folder.$this->clase.'lineas_agregar/'. $offset);
                 }
     	}
         $this->load->view('catalogos/lineas/formulario', $data);
@@ -82,18 +82,18 @@ class Articulos extends CI_Controller {
     /*
      * Vista previa de la linea
      */
-    public function lineas_ver( $id = NULL ) {
+    public function lineas_ver( $id = NULL, $offset = 0 ) {
         $this->load->model('catalogos/linea','l');
         
         $linea = $this->l->get_by_id($id);
         if ( empty($id) OR $linea->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'lineas');
+            redirect($this->folder.$this->clase.'lineas/'. $offset);
     	}
     	
     	$data['titulo'] = 'Lineas <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'lineas';
+    	$data['link_back'] = $this->folder.$this->clase.'lineas/'. $offset;
         
-    	$data['action'] = $this->folder.$this->clase.'lineas_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'lineas_editar/' . $id . '/'. $offset;
 
     	$data['datos'] = $linea->row();
         
@@ -103,23 +103,23 @@ class Articulos extends CI_Controller {
     /*
      * Editar una linea
      */
-    public function lineas_editar( $id = NULL ) {
+    public function lineas_editar( $id = NULL, $offset = 0 ) {
         $this->load->model('catalogos/linea','l');
         
         $linea = $this->l->get_by_id($id);
         if ( empty($id) OR $linea->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'lineas');
+            redirect($this->folder.$this->clase.'lineas/'. $offset);
     	}
     	
     	$data['titulo'] = 'Lineas <small>Editar registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'lineas_ver/'.$id;
+    	$data['link_back'] = $this->folder.$this->clase.'lineas_ver/'.$id.'/'. $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'lineas_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'lineas_editar/' . $id.'/'. $offset;
     	 
     	if ( ($datos = $this->input->post()) ) {
     		$this->l->update($id, $datos);
                 $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-                redirect($this->folder.$this->clase.'lineas_ver/'.$id);
+                redirect($this->folder.$this->clase.'lineas_ver/'.$id.'/'. $offset);
     	}
 
     	$data['datos'] = $this->l->get_by_id($id)->row();
@@ -137,8 +137,8 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Productos <small>Lista</small>';
-    	$data['link_add'] = $this->folder.$this->clase.'productos_agregar';
-    	$data['action'] = $this->folder.$this->clase.'productos';
+    	$data['link_add'] = $this->folder.$this->clase.'productos_agregar/'. $offset;
+    	$data['action'] = $this->folder.$this->clase.'productos/'. $offset;
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
         $filtro = $this->session->userdata('filtro');
@@ -168,7 +168,7 @@ class Articulos extends CI_Controller {
             $this->table->add_row(
                     $d->nombre,
                     (!empty($linea->nombre) ? $linea->nombre : ''),
-                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'productos_ver/' . $d->id_producto. '/' . $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -179,40 +179,40 @@ class Articulos extends CI_Controller {
     /*
      * Agregar un producto
      */
-    public function productos_agregar() {
+    public function productos_agregar( $offset = 0 ) {
         $this->load->model('catalogos/producto','p');
         $this->load->model('catalogos/linea','l');
         
     	$data['titulo'] = 'Productos <small>Registro nuevo</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'productos';
+    	$data['link_back'] = $this->folder.$this->clase.'productos/'. $offset;
     
-    	$data['action'] = $this->folder.$this->clase.'productos_agregar';
+    	$data['action'] = $this->folder.$this->clase.'productos_agregar/'. $offset;
     	if ( ($datos = $this->input->post()) ) {
     		if( ($id = $this->p->save($datos)) ){
                     $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
-                    redirect($this->folder.$this->clase.'productos_ver/'.$id);
+                    redirect($this->folder.$this->clase.'productos_ver/'.$id.'/'. $offset);
                 }else{
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
-                    redirect($this->folder.$this->clase.'productos_agregar');
+                    redirect($this->folder.$this->clase.'productos_agregar/'.'/'. $offset);
                 }
     	}
         $data['lineas'] = $this->l->get_all()->result();
         $this->load->view('catalogos/productos/formulario', $data);
     }
     
-    public function productos_ver( $id = NULL ) {
+    public function productos_ver( $id = NULL, $offset = 0 ) {
     	$this->load->model('catalogos/producto', 'p');
         $this->load->model('catalogos/linea','l');
         
         $producto = $this->p->get_by_id($id);
         if ( empty($id) OR $producto->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'productos');
+            redirect($this->folder.$this->clase.'productos/'. $offset);
     	}
     	
     	$data['titulo'] = 'Productos <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'productos';
+    	$data['link_back'] = $this->folder.$this->clase.'productos/'. $offset;
         
-    	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id.'/'. $offset;
 
     	$data['datos'] = $producto->row();
         $data['linea'] = $this->l->get_by_id($data['datos']->id_linea)->row();
@@ -223,24 +223,24 @@ class Articulos extends CI_Controller {
     /*
      * Editar un producto
      */
-    public function productos_editar( $id = NULL ) {
+    public function productos_editar( $id = NULL, $offset = 0 ) {
     	$this->load->model('catalogos/producto', 'p');
         $this->load->model('catalogos/linea','l');
         
         $producto = $this->p->get_by_id($id);
         if ( empty($id) OR $producto->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'productos');
+            redirect($this->folder.$this->clase.'productos/'. $offset);
     	}
     	
     	$data['titulo'] = 'Productos <small>Editar registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'productos_ver/'.$id;
+    	$data['link_back'] = $this->folder.$this->clase.'productos_ver/'.$id.'/'. $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'productos_editar/' . $id.'/'. $offset;
     	 
     	if ( ($datos = $this->input->post()) ) {
     		$this->p->update($id, $datos);
                 $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-                redirect($this->folder.$this->clase.'productos_ver/'.$id);
+                redirect($this->folder.$this->clase.'productos_ver/'.$id.'/'. $offset);
     	}
 
         $data['lineas'] = $this->l->get_all()->result();
@@ -259,8 +259,8 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Subproductos <small>Lista</small>';
-    	$data['link_add'] = $this->folder.$this->clase.'subproductos_agregar';
-    	$data['action'] = $this->folder.$this->clase.'subproductos';
+    	$data['link_add'] = $this->folder.$this->clase.'subproductos_agregar/'. $offset;
+    	$data['action'] = $this->folder.$this->clase.'subproductos/'. $offset;
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
         $filtro = $this->session->userdata('filtro');
@@ -291,7 +291,7 @@ class Articulos extends CI_Controller {
                     $d->nombre,
                     $d->codigo,
                     (!empty($producto->nombre) ? $producto->nombre : ''),
-                    anchor($this->folder.$this->clase.'subproductos_ver/' . $d->id_subproducto, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'subproductos_ver/' . $d->id_subproducto. '/' . $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -302,40 +302,40 @@ class Articulos extends CI_Controller {
     /*
      * Agregar un producto
      */
-    public function subproductos_agregar() {
+    public function subproductos_agregar( $offset = 0 ) {
         $this->load->model('catalogos/subproducto','s');
         $this->load->model('catalogos/producto','p');
         
     	$data['titulo'] = 'Subproductos <small>Registro nuevo</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'subproductos';
+    	$data['link_back'] = $this->folder.$this->clase.'subproductos/'. $offset;
     
-    	$data['action'] = $this->folder.$this->clase.'subproductos_agregar';
+    	$data['action'] = $this->folder.$this->clase.'subproductos_agregar/'. $offset;
     	if ( ($datos = $this->input->post()) ) {
     		if( ($id = $this->s->save($datos)) ){
                     $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
-                    redirect($this->folder.$this->clase.'subproductos_ver/'.$id);
+                    redirect($this->folder.$this->clase.'subproductos_ver/'.$id.'/'. $offset);
                 }else{
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
-                    redirect($this->folder.$this->clase.'subproductos_agregar');
+                    redirect($this->folder.$this->clase.'subproductos_agregar/'. $offset);
                 }
     	}
         $data['productos'] = $this->p->get_all()->result();
         $this->load->view('catalogos/subproductos/formulario', $data);
     }
     
-    public function subproductos_ver( $id = NULL ) {
+    public function subproductos_ver( $id = NULL, $offset = 0 ) {
     	$this->load->model('catalogos/subproducto', 's');
         $this->load->model('catalogos/producto', 'p');
         
         $subproducto = $this->s->get_by_id($id);
         if ( empty($id) OR $subproducto->num_rows() <= 0) {
-            redirect($this->folder.$this->clase.'subproductos');
+            redirect($this->folder.$this->clase.'subproductos/'. $offset);
     	}
     	
     	$data['titulo'] = 'Subproductos <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'subproductos';
+    	$data['link_back'] = $this->folder.$this->clase.'subproductos/'. $offset;
         
-    	$data['action'] = $this->folder.$this->clase.'subproductos_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'subproductos_editar/' . $id.'/'. $offset;
 
     	$data['datos'] = $subproducto->row();
         $data['producto'] = $this->p->get_by_id($data['datos']->id_producto)->row();
@@ -346,7 +346,7 @@ class Articulos extends CI_Controller {
     /*
      * Editar un producto
      */
-    public function subproductos_editar( $id = NULL ) {
+    public function subproductos_editar( $id = NULL, $offset = 0 ) {
         $this->load->model('catalogos/subproducto', 's');
     	$this->load->model('catalogos/producto', 'p');
         
@@ -356,9 +356,9 @@ class Articulos extends CI_Controller {
     	}
     	
     	$data['titulo'] = 'Subproductos <small>Editar registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'subproductos_ver/'.$id;
+    	$data['link_back'] = $this->folder.$this->clase.'subproductos_ver/'.$id.'/'. $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'subproductos_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'subproductos_editar/' . $id.'/'. $offset;
     	 
     	if ( ($datos = $this->input->post()) ) {
             if(strlen($datos['codigo']) == 0){
@@ -368,7 +368,7 @@ class Articulos extends CI_Controller {
                 $datos['inventariado'] = 'n';
             $this->s->update($id, $datos);
             $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-            redirect($this->folder.$this->clase.'subproductos_ver/'.$id);
+            redirect($this->folder.$this->clase.'subproductos_ver/'.$id.'/'. $offset);
     	}
 
         $data['productos'] = $this->p->get_all()->result();
@@ -387,8 +387,8 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Presentaciones <small>Lista</small>';
-    	$data['link_add'] = $this->folder.$this->clase.'presentaciones_agregar';
-    	$data['action'] = $this->folder.$this->clase.'presentaciones';
+    	$data['link_add'] = $this->folder.$this->clase.'presentaciones_agregar/'. $offset;
+    	$data['action'] = $this->folder.$this->clase.'presentaciones/'. $offset;
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
         $filtro = $this->session->userdata('filtro');
@@ -420,7 +420,7 @@ class Articulos extends CI_Controller {
                     $d->codigo,
                     $d->tipo,
                     (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
-                    anchor($this->folder.$this->clase.'presentaciones_ver/' . $d->id_articulo, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'presentaciones_ver/' . $d->id_articulo. '/' . $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -431,21 +431,21 @@ class Articulos extends CI_Controller {
     /*
      * Agregar una presentación
      */
-    public function presentaciones_agregar() {
+    public function presentaciones_agregar( $offset = 0 ) {
         $this->load->model('catalogos/subproducto','s');
         $this->load->model('catalogos/presentacion','p');
         
     	$data['titulo'] = 'Presentaciones <small>Registro nuevo</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'presentaciones';
+    	$data['link_back'] = $this->folder.$this->clase.'presentaciones/'. $offset;
     
-    	$data['action'] = $this->folder.$this->clase.'presentaciones_agregar';
+    	$data['action'] = $this->folder.$this->clase.'presentaciones_agregar/'. $offset;
     	if ( ($datos = $this->input->post()) ) {
     		if( ($id = $this->p->save($datos)) ){
                     $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
-                    redirect($this->folder.$this->clase.'presentaciones_ver/'.$id);
+                    redirect($this->folder.$this->clase.'presentaciones_ver/'.$id.'/'. $offset);
                 }else{
                     $this->session->set_flashdata('mensaje',$this->config->item('error'));
-                    redirect($this->folder.$this->clase.'presentaciones_agregar');
+                    redirect($this->folder.$this->clase.'presentaciones_agregar/'. $offset);
                 }
     		//$data['mensaje'] = '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>¡Registro exitoso!</div>';
     	}
@@ -453,7 +453,7 @@ class Articulos extends CI_Controller {
         $this->load->view('catalogos/presentaciones/formulario', $data);
     }
     
-    public function presentaciones_ver( $id = NULL ) {
+    public function presentaciones_ver( $id = NULL, $offset = 0 ) {
     	$this->load->model('catalogos/subproducto', 's');
         $this->load->model('catalogos/presentacion','p');
         
@@ -463,9 +463,9 @@ class Articulos extends CI_Controller {
     	}
     	
     	$data['titulo'] = 'Presentaciones <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'presentaciones';
+    	$data['link_back'] = $this->folder.$this->clase.'presentaciones/'. $offset;
         
-    	$data['action'] = $this->folder.$this->clase.'presentaciones_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'presentaciones_editar/' . $id.'/'. $offset;
 
     	$data['datos'] = $presentacion->row();
         $data['subproducto'] = $this->s->get_by_id($data['datos']->id_subproducto)->row();
@@ -476,7 +476,7 @@ class Articulos extends CI_Controller {
     /*
      * Editar una presentación
      */
-    public function presentaciones_editar( $id = NULL ) {
+    public function presentaciones_editar( $id = NULL, $offset = 0 ) {
         $this->load->model('catalogos/subproducto', 's');
     	$this->load->model('catalogos/presentacion','p');
         
@@ -486,9 +486,9 @@ class Articulos extends CI_Controller {
     	}
     	
     	$data['titulo'] = 'Presentaciones <small>Editar registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'presentaciones_ver/'.$id;
+    	$data['link_back'] = $this->folder.$this->clase.'presentaciones_ver/'.$id.'/'. $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'presentaciones_editar/' . $id;
+    	$data['action'] = $this->folder.$this->clase.'presentaciones_editar/' . $id.'/'. $offset;
     	 
     	if ( ($datos = $this->input->post()) ) {
             if(strlen($datos['codigo']) == 0){
@@ -500,7 +500,7 @@ class Articulos extends CI_Controller {
                 $datos['inventariado'] = 'n';
             $this->p->update($id, $datos);
             $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-            redirect($this->folder.$this->clase.'presentaciones_ver/'.$id);
+            redirect($this->folder.$this->clase.'presentaciones_ver/'.$id.'/'. $offset);
     	}
 
         $data['subproductos'] = $this->s->get_all()->result();
@@ -520,8 +520,8 @@ class Articulos extends CI_Controller {
         $this->config->load("pagination");
     	
         $data['titulo'] = 'Paquetes <small>Lista</small>';
-    	$data['link_add'] = $this->folder.$this->clase.'paquetes_agregar';
-    	$data['action'] = $this->folder.$this->clase.'paquetes';
+    	$data['link_add'] = $this->folder.$this->clase.'paquetes_agregar/'. $offset;
+    	$data['action'] = $this->folder.$this->clase.'paquetes/'. $offset;
         
         // Filtro de busqueda (se almacenan en la sesión a través de un hook)
         $filtro = $this->session->userdata('filtro');
@@ -553,7 +553,7 @@ class Articulos extends CI_Controller {
                     (strlen($d->codigo) > 0) ? $subproducto->codigo.$d->codigo : '',
                     $d->articulos,
                     (!empty($subproducto->nombre) ? $subproducto->nombre : ''),
-                    anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'paquetes_ver/' . $d->id_articulo. '/' . $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -564,20 +564,20 @@ class Articulos extends CI_Controller {
     /*
      * Agregar un paquete
      */
-    public function paquetes_agregar( ) {
+    public function paquetes_agregar( $offset = 0 ) {
         $this->load->model('catalogos/paquete','p');
         $this->load->model('catalogos/presentacion','pr');
         
     	$data['titulo'] = 'Paquetes <small>Registro nuevo</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes/'. $offset;
     
-    	$data['action'] = $this->folder.$this->clase.'paquetes_editar';
+    	$data['action'] = $this->folder.$this->clase.'paquetes_editar/'. $offset;
     	
         $data['presentaciones'] = $this->pr->get_all()->result();
         $this->load->view('catalogos/paquetes/formulario_nuevo', $data);
     }
     
-    public function paquetes_ver( $id_articulo = NULL ) {
+    public function paquetes_ver( $id_articulo = NULL, $offset = 0 ) {
     	$this->load->model('catalogos/paquete', 'p');
         $this->load->model('catalogos/presentacion','pr');
         $this->load->model('catalogos/subproducto', 'sp');
@@ -588,9 +588,9 @@ class Articulos extends CI_Controller {
     	}
     	
     	$data['titulo'] = 'Paquetes <small>Ver registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'paquetes';
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes/'. $offset;
     	
-        $data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
+        $data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo.'/'. $offset;
     	$data['paquete'] = $presentacion->row();
         
         $presentaciones = $this->p->get_presentaciones( $id_articulo )->result();
@@ -617,7 +617,7 @@ class Articulos extends CI_Controller {
     /*
      * Editar un paquete
      */
-    public function paquetes_editar( $id_articulo = NULL ) {
+    public function paquetes_editar( $id_articulo = NULL, $offset = 0 ) {
         $this->load->model('catalogos/paquete', 'p');
     	$this->load->model('catalogos/presentacion','pr');
         $this->load->model('catalogos/subproducto', 'sp');
@@ -626,19 +626,19 @@ class Articulos extends CI_Controller {
             redirect($this->folder.$this->clase.'paquetes');
 
         $data['titulo'] = 'Paquetes <small>Editar registro</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'paquetes_ver/'.$id_articulo;
+    	$data['link_back'] = $this->folder.$this->clase.'paquetes_ver/'.$id_articulo.'/'. $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo;
+    	$data['action'] = $this->folder.$this->clase.'paquetes_editar/' . $id_articulo.'/'. $offset;
     	 
         if ( ($datos = $this->input->post()) ) {
             $datos['id_articulo'] = $id_articulo;
             
             if( ($id = $this->p->save($datos)) ){
                 $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
-                redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo);
+                redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo.'/'. $offset);
             }else{
                 $this->session->set_flashdata('mensaje',$this->config->item('error'));
-                redirect($this->folder.$this->clase.'paquetes_editar');
+                redirect($this->folder.$this->clase.'paquetes_editar/');
             }
     	}
 
@@ -667,11 +667,11 @@ class Articulos extends CI_Controller {
         $this->load->view('catalogos/paquetes/formulario', $data);
     }
     
-    public function paquetes_quitar( $id, $id_articulo ) {
+    public function paquetes_quitar( $id, $id_articulo, $offset = 0 ) {
         $this->load->model('catalogos/paquete','p');
             	
         $this->p->delete( $id );
-        redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo);
+        redirect($this->folder.$this->clase.'paquetes_editar/'.$id_articulo.'/'. $offset);
     }
     
     
@@ -911,7 +911,7 @@ class Articulos extends CI_Controller {
             
             if ( ! $this->upload->do_upload('lista') )
             {
-                $error = $this->upload->display_errors();
+                //$error = $this->upload->display_errors();
                 $this->session->set_flashdata('mensaje',$this->config->item('error'));
             }
             else

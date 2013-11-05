@@ -9,7 +9,7 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2" for="descripcion">Descripcion</label>
+        <label class="col-sm-2" for="descripcion">Descripción</label>
         <div class="col-sm-8 col-md-6 col-lg-4">
             <p class="form-control-static"><?php echo (isset($datos->descripcion) ? $datos->descripcion : ''); ?></p>
         </div>

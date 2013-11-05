@@ -8,9 +8,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2" for="descripcion">Descripcion</label>
+        <label class="col-sm-2" for="descripcion">Descripción</label>
         <div class="col-sm-8 col-md-6 col-lg-4">
-            <input type="text" id="descripcion" name="descripcion" class="form-control required" value="<?php echo (isset($datos->descripcion) ? $datos->descripcion : ''); ?>" placeholder="Descripcion">
+            <input type="text" id="descripcion" name="descripcion" class="form-control required" value="<?php echo (isset($datos->descripcion) ? $datos->descripcion : ''); ?>" placeholder="Descripción">
         </div>
     </div>
 <?php echo form_close(); ?>

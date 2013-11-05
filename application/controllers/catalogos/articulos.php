@@ -46,7 +46,6 @@ class Articulos extends CI_Controller {
     	$this->table->set_template($tmpl);
     	$this->table->set_heading('Nombre', '');
     	foreach ($datos as $d) {
-            $linea = $this->l->get_by_id($d->id_linea)->row();
             $this->table->add_row(
                     $d->nombre,
                     anchor($this->folder.$this->clase.'lineas_ver/' . $d->id_linea, '<span class="'.$this->config->item('icono_editar').'"></span>')

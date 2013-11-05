@@ -44,7 +44,7 @@ class Cliente extends CI_Model {
                 $this->db->or_like('contacto',$f);
             }
         }
-        $this->db->order_by('id_cliente','asc');
+        $this->db->order_by('nombre','asc');
         return $this->db->get($this->tbl, $limit, $offset);
     }
     

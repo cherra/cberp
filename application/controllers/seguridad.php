@@ -48,7 +48,7 @@ class Seguridad extends CI_Controller{
                         ($permiso->menu == 1 ? 'Si' : '-'),
                         '<span class="glyphicon glyphicon-'.$permiso->icon.'"></span>',
                         anchor('seguridad/permisos_update/' . $permiso->id_permiso . '/' . $offset, '<span class="glyphicon glyphicon-edit"></span>'),
-                        anchor('seguridad/permisos_delete/' . $permiso->id_permiso, '<span class="glyphicon glyphicon-remove"></span>')
+                        anchor('seguridad/permisos_delete/' . $permiso->id_permiso . '/' . $offset, '<span class="glyphicon glyphicon-remove"></span>')
                 );
         }
         $data['table'] = $this->table->generate();
@@ -92,12 +92,12 @@ class Seguridad extends CI_Controller{
         $this->load->view('seguridad/permisos/formulario', $data);
     }
     
-    public function permisos_delete( $id ){
+    public function permisos_delete( $id, $offset = 0 ){
         if (!empty($id)) {
             $this->load->model('permiso', 'p');
             $this->p->delete($id);
         }
-        redirect('seguridad/permisos_lista');
+        redirect('seguridad/permisos_lista/'.$offset);
     }
     
     public function roles_lista( $offset = 0 ){

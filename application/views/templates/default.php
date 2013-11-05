@@ -121,7 +121,7 @@
         if($folder_activo){ ?>
         
             <div class="col-sm-3 col-lg-2">
-                <div class="sidebar-nav well hidden-print affix">
+                <div class="sidebar-nav well hidden-print">
                     <ul class="nav nav-list">
                         <?php
                         $clase = '';

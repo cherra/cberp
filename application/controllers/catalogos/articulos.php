@@ -710,12 +710,13 @@ class Articulos extends CI_Controller {
     	$this->table->set_empty('&nbsp;');
     	$tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
     	$this->table->set_template($tmpl);
-    	$this->table->set_heading('Nombre', '', '');
+    	$this->table->set_heading('Nombre', '', '', '');
     	foreach ($datos as $d) {
             $this->table->add_row(
                     $d->nombre,
                     anchor($this->folder.$this->clase.'precios_listas_ver/' . $d->id_lista, '<span class="'.$this->config->item('icono_editar').'"></span>'),
-                    anchor($this->folder.$this->clase.'precios/' . $d->id_lista, '<span class="glyphicon glyphicon-usd"></span>')
+                    anchor($this->folder.$this->clase.'precios/' . $d->id_lista, '<span class="glyphicon glyphicon-usd"></span>'),
+                    anchor($this->folder.$this->clase.'precios_exportar/'.$d->id_lista, '<span class="'.$this->config->item('icono_download').'"></span>')
             );
     	}
     	$data['table'] = $this->table->generate();
@@ -950,6 +951,41 @@ class Articulos extends CI_Controller {
                 unlink($path);
                 return true;
             }
+        }
+    }
+    
+    public function precios_exportar( $id_lista ){
+        if(!empty($id_lista)){
+            $this->load->model('catalogos/precio','p');
+            $this->load->model('catalogos/presentacion','pr');
+            $this->load->model('catalogos/subproducto','sp');
+            $this->load->model('catalogos/lista','l');
+            
+            $lista = $this->l->get_by_id($id_lista)->row();
+            
+            $path = $this->config->item('tmp_path');
+            if(!file_exists($path)){
+                mkdir($path, 0777, true);
+            }elseif(!is_writable($path)){
+                chmod($path, 0777);
+            }
+            
+            $fp = fopen($path.$lista->nombre.'.csv','w');           
+            
+            $presentaciones = $this->pr->get_all()->result();
+            foreach($presentaciones as $pr){
+                $subproducto = $this->sp->get_by_id($pr->id_subproducto)->row();
+                $precio = $this->p->get_precio($pr->id_articulo, $id_lista)->row();
+                if(!empty($subproducto->codigo) && !empty($pr->codigo) && !empty($precio->precio)){
+                    fputcsv($fp, array($subproducto->codigo.$pr->codigo,$precio->precio, $pr->nombre));
+                }
+            }
+            fclose($fp);
+            
+            $this->load->helper('download');
+            $contenido = file_get_contents($path.$lista->nombre.'.csv');
+            unlink($path.$lista->nombre.'.csv');
+            force_download($lista->nombre.'.csv', $contenido);
         }
     }
 }

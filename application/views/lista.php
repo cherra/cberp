@@ -4,7 +4,7 @@
         <input type="text" class="form-control" name="filtro" id="filtro" placeholder="Filtros de busqueda" value="<?php if(isset($filtro)) echo $filtro; ?>" >
     </div>
     <div class="form-group">
-        <button type="submit" class="btn btn-primary"><span class="<?php echo $this->config->item('icono_buscar'); ?>"></span></span> Buscar</button>
+        <button type="submit" class="btn btn-primary"><span class="<?php echo $this->config->item('icono_buscar'); ?>"></span></button>
     </div>
 <?php echo form_close(); ?>
 <div class="row">

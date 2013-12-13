@@ -975,8 +975,12 @@ class Articulos extends CI_Controller {
             foreach($presentaciones as $pr){
                 $subproducto = $this->sp->get_by_id($pr->id_subproducto)->row();
                 $precio = $this->p->get_precio($pr->id_articulo, $id_lista)->row();
-                if(!empty($subproducto->codigo) && !empty($pr->codigo) && !empty($precio->precio)){
-                    fputcsv($fp, array($subproducto->codigo.$pr->codigo,$precio->precio, $pr->nombre));
+                if(!empty($subproducto->codigo) && !empty($pr->codigo)){
+                    if(!empty($precio->precio))
+                        $p = $precio->precio;
+                    else
+                        $p = 0;
+                    fputcsv($fp, array($subproducto->codigo.$pr->codigo,$p, $pr->nombre));
                 }
             }
             fclose($fp);

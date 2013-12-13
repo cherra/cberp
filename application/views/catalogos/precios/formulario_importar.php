@@ -15,9 +15,9 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2" for="precio">Precio</label>
+        <label class="col-sm-2" for="precio">Archivo</label>
         <div class="col-sm-8 col-md-6 col-lg-4">
-            <input type="file" name="lista" class="form-control required" />
+            <input type="file" name="lista" class="required" />
             <span class="help-block">Archivo CSV con dos campos por linea: código y precio. Ej. 5040,140</span>
         </div>
     </div>

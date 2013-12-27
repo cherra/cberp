@@ -52,9 +52,31 @@ class Descuento extends CI_Model {
         return $this->db->get($this->tbl);
     }
     
-    function get_by_cliente($id) {
-        $this->db->where('id_cliente', $id);
-        return $this->db->get($this->tbl);
+    
+    function count_by_cliente( $id, $filtro = NULL ) {
+        $this->db->join('Articulo a','tc.id_articulo = a.id_articulo');
+        if(!empty($filtro)){
+            $filtro = explode(' ', $filtro);
+            foreach($filtro as $f){
+                $this->db->or_like('a.nombre',$f);
+            }
+        }
+        $this->db->where('tc.id_cliente', $id);
+        $query = $this->db->get($this->tbl.' tc');
+        return $query->num_rows();
+    }
+    
+    function get_by_cliente($id, $limit = NULL, $offset = 0, $filtro = NULL) {
+        $this->db->join('Articulo a','tc.id_articulo = a.id_articulo');
+        if(!empty($filtro)){
+            $filtro = explode(' ', $filtro);
+            foreach($filtro as $f){
+                $this->db->or_like('a.nombre',$f);
+            }
+        }
+        $this->db->where('tc.id_cliente', $id);
+        $this->db->order_by('a.nombre');
+        return $this->db->get($this->tbl.' tc', $limit, $offset);
     }
     
     function get_by_articulo($id) {

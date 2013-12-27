@@ -1,3 +1,14 @@
+<?php
+    if(isset($link_back)){
+    ?>
+    <div class="row">
+        <div class="col-xs-6">
+            <p><?php echo anchor($link_back,'<span class="'.$this->config->item('icono_regresar').'"></span> Regresar'); ?></p>
+        </div>
+    </div>
+    <?php
+    }
+    ?>
 <?php echo form_open($action, array('class' => 'form-inline', 'name' => 'form', 'id' => 'form', 'role' => 'form')) ?>
     <div class="form-group">
         <label class="sr-only" for="filtro">Filtros</label>

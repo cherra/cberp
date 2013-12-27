@@ -45,24 +45,72 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = 'arturobecerra';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'cherra';
-$db['default']['password'] = 'cherra3003';
-$db['default']['database'] = 'ArturoBecerra';
-$db['default']['dbdriver'] = 'mysql';
-$db['default']['dbprefix'] = '';
-$db['default']['pconnect'] = TRUE;
-$db['default']['db_debug'] = TRUE;
-$db['default']['cache_on'] = FALSE;
-$db['default']['cachedir'] = '';
-$db['default']['char_set'] = 'utf8';
-$db['default']['dbcollat'] = 'utf8_general_ci';
-$db['default']['swap_pre'] = '';
-$db['default']['autoinit'] = TRUE;
-$db['default']['stricton'] = FALSE;
+$db['arturobecerra']['hostname'] = 'localhost';
+$db['arturobecerra']['username'] = 'cherra';
+$db['arturobecerra']['password'] = 'cherra3003';
+$db['arturobecerra']['database'] = 'ArturoBecerra';
+$db['arturobecerra']['dbdriver'] = 'mysql';
+$db['arturobecerra']['dbprefix'] = '';
+$db['arturobecerra']['pconnect'] = TRUE;
+$db['arturobecerra']['db_debug'] = TRUE;
+$db['arturobecerra']['cache_on'] = FALSE;
+$db['arturobecerra']['cachedir'] = '';
+$db['arturobecerra']['char_set'] = 'utf8';
+$db['arturobecerra']['dbcollat'] = 'utf8_general_ci';
+$db['arturobecerra']['swap_pre'] = '';
+$db['arturobecerra']['autoinit'] = TRUE;
+$db['arturobecerra']['stricton'] = FALSE;
+
+$db['constitucion']['hostname'] = 'localhost';
+$db['constitucion']['username'] = 'cherra';
+$db['constitucion']['password'] = 'cherra3003';
+$db['constitucion']['database'] = 'Constitucion';
+$db['constitucion']['dbdriver'] = 'mysql';
+$db['constitucion']['dbprefix'] = '';
+$db['constitucion']['pconnect'] = TRUE;
+$db['constitucion']['db_debug'] = TRUE;
+$db['constitucion']['cache_on'] = FALSE;
+$db['constitucion']['cachedir'] = '';
+$db['constitucion']['char_set'] = 'utf8';
+$db['constitucion']['dbcollat'] = 'utf8_general_ci';
+$db['constitucion']['swap_pre'] = '';
+$db['constitucion']['autoinit'] = TRUE;
+$db['constitucion']['stricton'] = FALSE;
+
+$db['ayuntamiento']['hostname'] = 'localhost';
+$db['ayuntamiento']['username'] = 'cherra';
+$db['ayuntamiento']['password'] = 'cherra3003';
+$db['ayuntamiento']['database'] = 'Villa';
+$db['ayuntamiento']['dbdriver'] = 'mysql';
+$db['ayuntamiento']['dbprefix'] = '';
+$db['ayuntamiento']['pconnect'] = TRUE;
+$db['ayuntamiento']['db_debug'] = TRUE;
+$db['ayuntamiento']['cache_on'] = FALSE;
+$db['ayuntamiento']['cachedir'] = '';
+$db['ayuntamiento']['char_set'] = 'utf8';
+$db['ayuntamiento']['dbcollat'] = 'utf8_general_ci';
+$db['ayuntamiento']['swap_pre'] = '';
+$db['ayuntamiento']['autoinit'] = TRUE;
+$db['ayuntamiento']['stricton'] = FALSE;
+
+$db['tecoman']['hostname'] = 'localhost';
+$db['tecoman']['username'] = 'cherra';
+$db['tecoman']['password'] = 'cherra3003';
+$db['tecoman']['database'] = 'Tecoman';
+$db['tecoman']['dbdriver'] = 'mysql';
+$db['tecoman']['dbprefix'] = '';
+$db['tecoman']['pconnect'] = TRUE;
+$db['tecoman']['db_debug'] = TRUE;
+$db['tecoman']['cache_on'] = FALSE;
+$db['tecoman']['cachedir'] = '';
+$db['tecoman']['char_set'] = 'utf8';
+$db['tecoman']['dbcollat'] = 'utf8_general_ci';
+$db['tecoman']['swap_pre'] = '';
+$db['tecoman']['autoinit'] = TRUE;
+$db['tecoman']['stricton'] = FALSE;
 
 
 /* End of file database.php */

@@ -28,13 +28,13 @@
     <div class="form-group">
         <label class="col-sm-2" for="password">Contraseña</label>
         <div class="col-sm-6 col-md-4">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" autocomplete="off">
         </div>
     </div>
     <div class="form-group">
         <label class="col-sm-2" for="confirmar_password">Confirmar contraseña</label>
         <div class="col-sm-6 col-md-4">
-            <input type="password" id="confirmar_password" name="confirmar_password" class="form-control" placeholder="Confirmar contraseña">
+            <input type="password" id="confirmar_password" name="confirmar_password" class="form-control" placeholder="Confirmar contraseña" autocomplete="off">
         </div>
     </div>
 <?php echo form_close(); ?>

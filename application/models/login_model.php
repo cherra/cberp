@@ -14,7 +14,9 @@ class Login_model extends CI_Model{
          
         // Prep the query
         $this->db->where('username', $username);
-        $this->db->where("password = SHA1('$password')", NULL, FALSE);
+        $this->db->where('password', $password);
+        $this->db->where('eliminado','n');
+        //$this->db->where("password = SHA1('$password')", NULL, FALSE);
          
         // Run the query
         $query = $this->db->get('Usuario');

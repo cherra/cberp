@@ -299,7 +299,7 @@ class Seguridad extends CI_Controller{
                         $usuario->nombre,
                         $usuario->apellido,
                         $usuario->username,
-                        $usuario->activo == 's' ? '<span class="glyphicon glyphicon-ok"></span>' : '',
+                        $usuario->eliminado == 'n' ? '<span class="glyphicon glyphicon-ok"></span>' : '',
                         anchor('seguridad/usuarios_permisos/' . $usuario->id_usuario. '/' . $offset, '<span class="glyphicon glyphicon-lock"></span>'),
                         anchor('seguridad/usuarios_roles/' . $usuario->id_usuario. '/' . $offset, '<span class="glyphicon glyphicon-user"></span>'),
                         anchor('seguridad/usuarios_update/' . $usuario->id_usuario. '/' . $offset, '<span class="glyphicon glyphicon-edit"></span>'),
@@ -335,15 +335,16 @@ class Seguridad extends CI_Controller{
                     'nombre' => $this->input->post('nombre'),
                     'apellido' => $this->input->post('apellido'),
                     'username' => $this->input->post('username'),
-                    'password' => sha1($this->input->post('password')),
-                    'activo' => $this->input->post('activo')
+                    //'password' => sha1($this->input->post('password')),
+                    'password' => $this->input->post('password'),
+                    'eliminado' => !empty($this->input->post('eliminado')) ? $this->input->post('eliminado') : 's'
                 );
             }else{
                 $usuario = array(
                     'nombre' => $this->input->post('nombre'),
                     'apellido' => $this->input->post('apellido'),
                     'username' => $this->input->post('username'),
-                    'activo' => $this->input->post('activo')
+                    'eliminado' => !empty($this->input->post('eliminado')) ? $this->input->post('eliminado') : 's'
                 );
             }
             $this->u->update($id, $usuario);
@@ -367,7 +368,7 @@ class Seguridad extends CI_Controller{
                 'nombre' => $this->input->post('nombre', true),
                 'username' => $this->input->post('username', true),
                 'password' => sha1($this->input->post('password')),
-                'activo' => $this->input->post('activo', true)
+                'eliminado' => $this->input->post('eliminado', true)
             );
             
             $this->load->model('usuario', 'u');

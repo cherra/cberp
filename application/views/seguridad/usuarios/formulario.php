@@ -28,7 +28,7 @@
     <div class="form-group">
         <label class="col-sm-2" for="password">Contraseña</label>
         <div class="col-sm-6 col-md-4">
-            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" autocomplete="off">
         </div>
     </div>
     <div class="form-group">
@@ -38,11 +38,11 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-sm-2" for="activo">Activo?</label>
+        <label class="col-sm-2" for="eliminado">Activo?</label>
         <div class="col-sm-6 col-md-4">
-            <input type="checkbox" name="activo" value="s" <?php 
-            if(isset($datos->activo)){
-                echo $datos->activo == 's' ? 'checked' : ''; 
+            <input type="checkbox" name="eliminado" value="n" <?php 
+            if(isset($datos->eliminado)){
+                echo $datos->eliminado == 'n' ? 'checked' : ''; 
             }
             ?>>
         </div>

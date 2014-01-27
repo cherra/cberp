@@ -15,7 +15,7 @@ class Descuento extends CI_Model {
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('id_tarjeta_cliente',$f);
+                $this->db->or_like('id_tarjeta',$f);
             }
         }
         $query = $this->db->get($this->tbl);
@@ -26,7 +26,7 @@ class Descuento extends CI_Model {
      *  Obtiene todos los registros de la tabla
      */
     function get_all() {
-        $this->db->order_by('id_tarjeta_cliente','asc');
+        $this->db->order_by('id_tarjeta','asc');
         return $this->db->get($this->tbl);
     }
     
@@ -37,10 +37,10 @@ class Descuento extends CI_Model {
         if(!empty($filtro)){
             $filtro = explode(' ', $filtro);
             foreach($filtro as $f){
-                $this->db->or_like('id_tarjeta_cliente',$f);
+                $this->db->or_like('id_tarjeta',$f);
             }
         }
-        $this->db->order_by('id_tarjeta_cliente','asc');
+        $this->db->order_by('id_tarjeta','asc');
         return $this->db->get($this->tbl, $limit, $offset);
     }
     
@@ -48,7 +48,7 @@ class Descuento extends CI_Model {
     * Obtener por id
     */
     function get_by_id($id) {
-        $this->db->where('id_tarjeta_cliente', $id);
+        $this->db->where('id_tarjeta', $id);
         return $this->db->get($this->tbl);
     }
     
@@ -94,6 +94,10 @@ class Descuento extends CI_Model {
     * Alta
     */
     function save( $datos ) {
+        $this->db->where('id_cliente', $datos['id_cliente']);
+        $this->db->where('id_articulo', $datos['id_articulo']);
+        $this->db->delete($this->tbl);
+        
         $this->db->insert($this->tbl, $datos);
         return $this->db->insert_id();
     }
@@ -102,7 +106,7 @@ class Descuento extends CI_Model {
     * Actualizar por id
     */
     function update($id, $datos) {
-        $this->db->where('id_tarjeta_cliente', $id);
+        $this->db->where('id_tarjeta', $id);
         $this->db->update($this->tbl, $datos);
     }
 
@@ -110,7 +114,7 @@ class Descuento extends CI_Model {
     * Eliminar por id
     */
     function delete($id) {
-        $this->db->where('id_tarjeta_cliente', $id);
+        $this->db->where('id_tarjeta', $id);
         $this->db->delete($this->tbl);
     } 
 }

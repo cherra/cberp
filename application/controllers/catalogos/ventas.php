@@ -231,7 +231,7 @@ class Ventas extends CI_Controller {
         $data['titulo'] = 'Descuentos por cliente <small>Lista</small>';
     	$data['action'] = $this->folder.$this->clase.'clientes_descuentos_ver/'.$id.'/'.$offset;
         $data['link_back'] = $this->folder.$this->clase.'clientes/'.$offset;
-        $data['link_add'] = $this->folder.$this->clase.'clientes_descuentos_agregar/'. $offset;
+        $data['link_add'] = $this->folder.$this->clase.'clientes_descuentos_agregar/'. $id.'/'. $offset;
         
         $data['cliente'] = $this->c->get_by_id($id)->row();
 
@@ -257,7 +257,7 @@ class Ventas extends CI_Controller {
         $this->table->set_empty('&nbsp;');
         $tmpl = array ( 'table_open' => '<table class="' . $this->config->item('tabla_css') . '" >' );
         $this->table->set_template($tmpl);
-        $this->table->set_heading('Código', 'Nombre', 'Precio', 'Descuento', '');
+        $this->table->set_heading('Código', 'Nombre', 'Precio', 'Descuento', '', '');
         foreach ($datos as $d) {
             $presentacion = $this->p->get_by_id($d->id_articulo)->row();
             $precio = $this->pr->get_precio($d->id_articulo, $data['cliente']->id_lista)->row();
@@ -266,7 +266,8 @@ class Ventas extends CI_Controller {
                     $presentacion->nombre,
                     array('data' => number_format((empty($precio->precio) ? 0 : $precio->precio),2), 'style' => 'text-align: right;'),
                     array('data' => number_format((empty($d->descuento) ? 0 : $d->descuento),2), 'style' => 'text-align: right;'),
-                    anchor($this->folder.$this->clase.'clientes_descuentos_editar/' . $d->id_tarjeta. '/'. $offset, '<span class="'.$this->config->item('icono_editar').'"></span>')
+                    anchor($this->folder.$this->clase.'clientes_descuentos_editar/' . $d->id_cliente . '/' . $d->id_tarjeta. '/'. $offset, '<span class="'.$this->config->item('icono_editar').'"></span>'),
+                    anchor($this->folder.$this->clase.'clientes_descuentos_quitar/' . $d->id_cliente . '/' . $d->id_tarjeta. '/'. $offset, '<span class="'.$this->config->item('icono_borrar').'"></span>')
             );
         }
         $data['table'] = $this->table->generate();
@@ -278,46 +279,91 @@ class Ventas extends CI_Controller {
     /*
      * Editar datos de crédito
      */
-    public function clientes_descuentos_editar( $id = NULL, $offset = 0 ) {
-        $this->load->model('catalogos/cliente','c');
-        $this->load->model('catalogos/ruta_cobranza','r');
+    public function clientes_descuentos_editar( $id_cliente = NULL, $id_tarjeta = NULL, $offset = 0 ) {
+        $this->load->model('catalogos/descuento','d');
         
-        $cliente = $this->c->get_by_id($id);
-        if ( empty($id) OR $cliente->num_rows() <= 0) {
+        $descuento = $this->d->get_by_id($id_tarjeta);
+        if ( empty($id_tarjeta) OR $descuento->num_rows() <= 0) {
             redirect($this->folder.$this->clase.'clientes');
     	}
     	
-    	$data['titulo'] = 'Clientes <small>Editar datos de crédito</small>';
-    	$data['link_back'] = $this->folder.$this->clase.'clientes_credito_ver/'.$id . '/' . $offset;
+        $this->load->model('catalogos/cliente','c');
+        $this->load->model('catalogos/presentacion','p');
+        $this->load->model('catalogos/precio','pr');
+        
+    	$data['titulo'] = 'Clientes <small>Editar descuentos</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente . '/' . $offset;
     	$data['mensaje'] = '';
-    	$data['action'] = $this->folder.$this->clase.'clientes_credito_editar/' . $id . '/' . $offset;
+    	$data['action'] = $this->folder.$this->clase.'clientes_descuentos_editar/' . $id_cliente . '/' . $id_tarjeta . '/' . $offset;
     	 
     	if ( ($datos = $this->input->post()) ) {
-            if(empty($datos['lun']))
-                $datos['lun'] = 'n';
-            if(empty($datos['mar']))
-                $datos['mar'] = 'n';
-            if(empty($datos['mie']))
-                $datos['mie'] = 'n';
-            if(empty($datos['jue']))
-                $datos['jue'] = 'n';
-            if(empty($datos['c']))
-                $datos['vie'] = 'n';
-            if(empty($datos['sab']))
-                $datos['sab'] = 'n';
-            if(empty($datos['dom']))
-                $datos['dom'] = 'n';
-            if(empty($datos['deudor']))
-                $datos['deudor'] = 'n';
-            $this->c->update($id, $datos);
+            $this->d->update($id_tarjeta, $datos);
             $this->session->set_flashdata('mensaje',$this->config->item('update_success'));
-            redirect($this->folder.$this->clase.'clientes_credito_ver/'.$id . '/' . $offset);
+            redirect($this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente . '/' . $offset);
     	}
 
-    	$data['datos'] = $this->c->get_by_id($id)->row();
-        $data['rutas'] = $this->r->get_all()->result();
+    	$data['datos'] = $this->d->get_by_id($id_tarjeta)->row();
+        $data['cliente'] = $this->c->get_by_id($id_cliente)->row();
+        $data['presentacion'] = $this->p->get_by_id($data['datos']->id_articulo)->row();
+        $data['precio'] = $this->pr->get_precio($data['datos']->id_articulo, $data['cliente']->id_lista)->row();
+         
+        $this->load->view('catalogos/clientes/formulario_descuento', $data);
+    }
+    
+    /*
+     * 
+     * Agregar un descuento
+     */
+    
+    public function clientes_descuentos_agregar( $id_cliente = NULL,  $offset = 0, $id_articulo = NULL ) {
+        $this->load->model('catalogos/cliente','c');
         
-        $this->load->view('catalogos/clientes/formulario_credito', $data);
+        $cliente = $this->c->get_by_id($id_cliente);
+        if ( empty($id_cliente) OR $cliente->num_rows() <= 0) {
+            redirect($this->folder.$this->clase.'clientes');
+    	}
+        
+        $this->load->model('catalogos/descuento','d');
+        $this->load->model('catalogos/presentacion','p');
+        $this->load->model('catalogos/precio','pr');
+        
+    	$data['titulo'] = 'Clientes <small>Agregar un descuento</small>';
+    	$data['link_back'] = $this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente.'/'.$offset;
+    
+    	$data['action'] = $this->folder.$this->clase.'clientes_descuentos_agregar/'.$id_cliente.'/'.$offset;
+    	if ( ($datos = $this->input->post()) ) {
+            if( ($id = $this->d->save($datos)) ){
+                $this->session->set_flashdata('mensaje',$this->config->item('create_success'));
+                redirect($this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente.'/'.$offset);
+            }else{
+                $this->session->set_flashdata('mensaje',$this->config->item('error'));
+                redirect($this->folder.$this->clase.'clientes_descuentos_agregar/'.$id_cliente.'/'.$offset);
+            }
+    	}
+        
+        $data['presentaciones'] = $this->p->get_all()->result();
+        $data['cliente'] = $cliente->row();
+        if(!empty($id_articulo)){
+            $data['presentacion'] = $this->p->get_by_id($id_articulo)->row();
+            $data['precio'] = $this->pr->get_precio($id_articulo, $data['cliente']->id_lista)->row();
+        }
+        $data['offset'] = $offset;
+        
+        $this->load->view('catalogos/clientes/formulario_descuento', $data);
+    }
+    
+    public function clientes_descuentos_quitar( $id_cliente = NULL, $id = NULL, $offset = 0 ) {
+        if(empty($id_cliente)){
+            redirect($this->folder.$this->clase.'clientes');
+        }
+        if(empty($id)){
+            redirect($this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente);
+        }
+        
+        $this->load->model('catalogos/descuento','d');
+            	
+        $this->d->delete( $id );
+        redirect($this->folder.$this->clase.'clientes_descuentos_ver/'.$id_cliente.'/'. $offset);
     }
     
     /*

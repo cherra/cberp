@@ -87,14 +87,14 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="dropdown pull-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Mi cuenta<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('seguridad/usuarios_password','Cambiar contraseña'); ?></li>
                         <li><?php echo anchor('login/do_logout','Salir'); ?></li>
                     </ul>
                 </li>
                 <li class="dropdown pull-right">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Configuración<b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span><b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li><?php echo anchor('seguridad/permisos_lista', 'Permisos'); ?></li>
                         <li><?php echo anchor('seguridad/roles_lista', 'Roles'); ?></li>
